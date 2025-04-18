@@ -1,9 +1,12 @@
-import { Button } from '@radix-ui/themes';
+import { hasEnvVars } from '@/utils/supabase/check-env-vars';
 
 export default function Home() {
   return (
-    <div className="dark-theme">
-      <Button>Hello</Button>
-    </div>
+    <>
+      <main className="flex-1 flex flex-col gap-6 px-4">
+        <h2 className="font-medium text-xl mb-4">Next steps</h2>
+        {hasEnvVars ? <h1>With envs</h1> : <h1>NO envs</h1>}
+      </main>
+    </>
   );
 }
