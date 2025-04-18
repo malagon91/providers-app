@@ -1,9 +1,9 @@
-import {Button} from '@radix-ui/themes'
+import { Button } from '@radix-ui/themes';
 
 export default function Home() {
   return (
-      <div>
-       <Button>Hello</Button>
-      </div>
+    <div className="dark-theme">
+      <Button>Hello</Button>
+    </div>
   );
 }
