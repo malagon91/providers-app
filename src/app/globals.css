@@ -1,1 +1,39 @@
+/* Tailwind utilities only (Tailwind v4) */
 @tailwind utilities;
+
+/* Radix UI Theme base styles */
+@import '@radix-ui/themes/styles.css';
+
+/* Base reset styles (since Tailwind v4 no longer includes preflight) */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: system-ui, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+/* Radix utility classes override */
+:root {
+    --color-background: white;
+    --color-text: #111;
+}

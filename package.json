@@ -13,9 +13,11 @@
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "autoprefixer": "^10.4.21",
+    "class-variance-authority": "^0.7.1",
     "next": "15.3.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -27,6 +29,7 @@
     "eslint-config-next": "15.3.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
+    "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
