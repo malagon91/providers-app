@@ -6,6 +6,7 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
     './src/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/ui/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/@radix-ui/themes/**/*.{js,ts,jsx,tsx}',
   ],
   prefix: '',
@@ -75,4 +76,5 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
+  important: true,
 };

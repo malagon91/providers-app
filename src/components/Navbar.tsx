@@ -1,6 +1,6 @@
 'use client';
-
-import { Box, Container, Flex, Button, Text } from '@radix-ui/themes';
+import { Button } from '@/components/ui/button';
+import { Box, Container, Flex, Text } from '@radix-ui/themes';
 import Link from 'next/link';
 
 export default function Navbar() {
@@ -17,14 +17,10 @@ export default function Navbar() {
 
             <Flex gap="3">
               <Link href="/sign-in">
-                <Button variant="soft" color="gray">
-                  Login
-                </Button>
+                <Button variant="secondary">Login</Button>
               </Link>
               <Link href="/register">
-                <Button variant="solid" color="blue">
-                  Register
-                </Button>
+                <Button variant="default">Register</Button>
               </Link>
             </Flex>
           </Flex>

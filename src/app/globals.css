@@ -1,5 +1,5 @@
-@import 'tailwindcss';
 @import '@radix-ui/themes/styles.css';
+@import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
 
@@ -171,24 +171,6 @@ html, body {
     padding: 0;
     height: 100%;
     font-family: system-ui, sans-serif;
-    background-color: var(--color-background);
-    color: var(--color-text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-button {
-    all: unset;
-    cursor: pointer;
-}
-
-/* Radix utility classes override */
-:root {
-    --color-background: white;
-    --color-text: #111;
 }
