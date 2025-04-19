@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Navbar() {
   return (
     <Box asChild py="3" className="border-b border-gray-200">
-      <nav>
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <Container>
           <Flex justify="between" align="center">
             <Link href="/">
@@ -16,7 +16,7 @@ export default function Navbar() {
             </Link>
 
             <Flex gap="3">
-              <Link href="/login">
+              <Link href="/sign-in">
                 <Button variant="soft" color="gray">
                   Login
                 </Button>
