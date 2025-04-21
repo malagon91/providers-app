@@ -1,9 +1,14 @@
 import { Heading, Text } from '@radix-ui/themes';
+import ProveedoresMenu from "../components/MenuNewProvider"
+import NewProvider from "../components/NewProvider"
+
+
 
 export default function HomePage() {
   return (
     <>
-      <main className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50">
+    {/*
+  <main className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50">
         <Heading size="8" as="h1" className="text-center mb-4">
           Welcome to <span className="text-blue-600">MyApp</span>
         </Heading>
@@ -12,7 +17,12 @@ export default function HomePage() {
           <strong>Radix UI Themes</strong> to style components. If you're seeing
           this layout correctly, everything is working! 🎉
         </Text>
-      </main>
+        
+      </main> */}
+
+      <ProveedoresMenu></ProveedoresMenu>
+      <NewProvider></NewProvider>
+      
     </>
   );
 }
