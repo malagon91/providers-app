@@ -1,6 +1,8 @@
 import { Heading, Text } from '@radix-ui/themes';
 import ProveedoresMenu from "../components/MenuNewProvider"
 import NewProvider from "../components/NewProvider"
+import SideBar from "../components/SideBar"
+
 
 
 
@@ -20,8 +22,9 @@ export default function HomePage() {
         
       </main> */}
 
-      <ProveedoresMenu></ProveedoresMenu>
-      <NewProvider></NewProvider>
+       <SideBar></SideBar> 
+
+
       
     </>
   );

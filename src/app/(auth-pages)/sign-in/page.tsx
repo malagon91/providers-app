@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { Button } from '@radix-ui/themes';
 
+
 export default async function Login(props: { searchParams: Promise<Message> }) {
   const searchParams = await props.searchParams;
   return (
@@ -45,6 +46,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           <FormMessage message={searchParams} />
         </div>
       </form>
+
     </>
   );
 }
