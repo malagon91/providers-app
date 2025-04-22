@@ -5,7 +5,11 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <Box asChild py="3" className="border-b border-gray-200">
+    <Box 
+      asChild 
+      py="3" 
+      className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200"
+    >
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <Container>
           <Flex justify="between" align="center">

@@ -1,43 +1,62 @@
-
 'use client';
-
-
-import { signInAction } from '@/app/actions';
-import { FormMessage, Message } from '@/components/form-message';
-import { SubmitButton } from '@/components/submit-button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import { Button } from '@radix-ui/themes';
-import { motion } from 'framer-motion';
-import { FaBars } from 'react-icons/fa';
-import { FaHome } from 'react-icons/fa';
-import { FaUser } from 'react-icons/fa';
 import { useState } from 'react';
-import  NavItem  from '@/components/NavItem';
-import {menuItems} from '@/components/data';
+import { FiChevronLeft, FiChevronRight, FiHome, FiUsers, FiMail, FiSettings } from 'react-icons/fi';
 
-function SideBar(){
+const ExpandableSidebar = () => {
+  const [expanded, setExpanded] = useState(true);
+  const [activeItem, setActiveItem] = useState('Dashboard');
 
-    const [isOpen, setIsOpen] =useState(false)
+  const menuItems = [
+    { name: 'Dashboard', icon: <FiHome className="text-lg"/>, href:"/dashboard" },
+    { name: 'Supplier', icon: <FiUsers className="text-lg" />, href:'Supplier-Management' },
+    { name: 'Management', icon: <FiUsers className="text-lg"  /> ,href:'Supplier-Management' },
+    { name: 'Messages', icon: <FiMail className="text-lg" />, href:'Supplier-Management' },
+    { name: 'Settings', icon: <FiSettings className="text-lg" />, href:'Supplier-Management' }
+  ];
 
-    return(
-        <>
-        <motion.div initial={{width:60}} animate={{width: isOpen ? 240 : 60}} 
-        transition={{duration:0.4}}
-        className='bg-gray-900 h-screen text-white p-4'>
-        <button  className='text-xl mb-9' onClick={()=> setIsOpen((prev) => !prev)}>
-            <FaBars></FaBars>
-        </button>
-        <nav className='flex flex-col gap-11'>
-            {menuItems.map((item, index)=>(
-                <NavItem key={index} icon={item.icon} text={item.text} isOpen={isOpen} setIsOpen={setIsOpen} href={item.href}
-                ></NavItem>
-            ))}
-        </nav>
-        </motion.div>
-        </>
-    )
-}
+  return (
+    <div className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white flex flex-col border-r-4 border-gray-200 transition-all duration-300 ease-in-out ${expanded ? 'w-64' : 'w-20'}`}>
+      {/* Botón de expandir/colapsar */}
+      <button 
+        onClick={() => setExpanded(!expanded)}
+        className="p-3 flex items-center justify-center hover:bg-gray-100 border-b border-gray-200"
+      >
+        {expanded ? (
+          <div className="flex items-center text-gray-600">
+            <FiChevronLeft className="text-lg" />
+            <span className="ml-2 text-sm">Collapse</span>
+          </div>
+        ) : (
+          <FiChevronRight className="text-lg text-gray-600" />
+        )}
+      </button>
 
-export default SideBar
+      {/* Menú principal */}
+      <nav className="flex-1 overflow-y-auto py-2">
+        {menuItems.map((item) => (
+          <Link
+            
+            key={item.name}
+            href={item.href}
+            onClick={() => setActiveItem(item.name)}
+            className={`flex items-center p-3 mx-2 my-1 rounded-lg cursor-pointer transition-colors ${
+              activeItem === item.name 
+                ? 'bg-blue-50 text-blue-600' 
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <span className={`${expanded ? 'mr-3' : 'mx-auto'}`}>
+              {item.icon}
+            </span>
+            {expanded && (
+              <span className="text-sm font-medium">{item.name}</span>
+            )}
+          </Link>
+        ))}
+      </nav>
+    </div>
+  );
+};
+
+export default ExpandableSidebar;

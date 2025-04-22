@@ -17,44 +17,18 @@ const AdvancedFooter = () => {
         { title: 'Integrations', href: '/integrations' },
       ],
     },
-    {
-      title: 'Resources',
-      links: [
-        { title: 'Documentation', href: '/docs' },
-        { title: 'Blog', href: '/blog' },
-        { title: 'Tutorials', href: '/tutorials' },
-        { title: 'Support', href: '/support' },
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        { title: 'About', href: '/about' },
-        { title: 'Team', href: '/team' },
-        { title: 'Careers', href: '/careers' },
-        { title: 'Contact Us', href: '/contact' },
-      ],
-    },
-    {
-      title: 'Legal',
-      links: [
-        { title: 'Terms of Service', href: '/terms' },
-        { title: 'Privacy Policy', href: '/privacy' },
-        { title: 'Cookie Policy', href: '/cookies' },
-        { title: 'Security', href: '/security' },
-      ],
-    },
+    // ... (resto de tus categorías)
   ];
 
   return (
-    <footer className="bg-white text-slate-200">
-      <div className="max-w-6xl mx-auto py-12 px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <div className="mb-6 md:mb-0">
-            <div className="text-2xl font-bold mb-2">YourApp</div>
-            <p className="text-slate-400 max-w-md text-sm">
-              Your application description goes here. Just a brief overview of
-              what your app is about and why people should care.
+    <footer className="fixed bottom-0 left-0 right-0 bg-white text-slate-200 border-t border-gray-200">
+      <div className="max-w-6xl mx-auto py-1 px-4 w-full">
+        {/* Contenido superior del footer */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+          <div className="mb-4 md:mb-0">
+            <div className="text-2xl font-bold mb-2 text-black">YourApp</div>
+            <p className="text-slate-500 max-w-md text-sm">
+              Your application description goes here.
             </p>
           </div>
 
@@ -62,44 +36,45 @@ const AdvancedFooter = () => {
             <div className="flex space-x-4">
               <a
                 href="https://facebook.com"
-                className="p-2 rounded-full  transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 aria-label="Facebook"
               >
-                <CiFacebook className="text-black w-8 h-8 " />
+                <CiFacebook className="text-black w-6 h-6" />
               </a>
               <a
                 href="https://instagram.com"
-                className="p-2 rounded-full  transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 aria-label="Instagram"
               >
-                <FaInstagram className="text-black w-8 h-8 " />
+                <FaInstagram className="text-black w-6 h-6" />
               </a>
               <a
                 href="https://x.com"
-                className="p-2 rounded-full  transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                 aria-label="Twitter"
               >
-                <FaTwitter className="text-black w-8 h-8 " />
+                <FaTwitter className="text-black w-6 h-6" />
               </a>
             </div>
           </div>
         </div>
-        <Separator.Root className="bg-slate-800 h-px w-full mb-8" />
+
+        <Separator.Root className="bg-slate-300 h-px w-full mb-4" />
 
         {/* Bottom footer */}
-        <div className="flex flex-col-reverse md:flex-row justify-between items-center text-sm text-slate-400">
+        <div className="flex flex-col-reverse md:flex-row justify-between items-center text-sm text-slate-500">
           <p>© {currentYear} YourApp. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-4 mb-4 md:mb-0">
-            <a href="/terms" className="hover:text-white transition-colors">
+            <a href="/terms" className="hover:text-black transition-colors">
               Terms
             </a>
-            <a href="/privacy" className="hover:text-white transition-colors">
+            <a href="/privacy" className="hover:text-black transition-colors">
               Privacy
             </a>
-            <a href="/cookies" className="hover:text-white transition-colors">
+            <a href="/cookies" className="hover:text-black transition-colors">
               Cookies
             </a>
-            <a href="/sitemap" className="hover:text-white transition-colors">
+            <a href="/sitemap" className="hover:text-black transition-colors">
               Sitemap
             </a>
           </div>

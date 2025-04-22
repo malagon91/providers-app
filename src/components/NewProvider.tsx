@@ -1,6 +1,8 @@
 "use client"
 import * as React from "react";
 import {SubmitButton} from '@/components/submit-button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 
 import {
@@ -14,22 +16,22 @@ import {
 } from "@radix-ui/themes";
 
 const statusOptions = [
-  "In Progress",
-  "On Hold",
-  "Active",
-  "Inactive",
+  "En ProgresO",
+  "En Hold",
+  "Activo",
+  "Inactivo",
 ];
 
 const proveedorOptions = [
-  "Proyect A",
-  "Proyect B",
-  "Proyect C",
+  "Proyecto A",
+  "Proyecto B",
+  "Proyecto C",
 ];
 
 const commodityOptions = [
-  "Component X",
-  "Component Y",
-  "Component Z",
+  "Componente X",
+  "Componente Y",
+  "Componente Z",
 ];
 
 export default function InformacionProveedor() {
@@ -46,15 +48,15 @@ export default function InformacionProveedor() {
 </h2>
 
           <Flex direction="column" gap="3">
-            <TextField.Root placeholder="Supplier Name" />
-            <TextField.Root placeholder="Street and Number" />
-            <TextField.Root placeholder="City" />
-            <TextField.Root placeholder="State" />
-            <TextField.Root placeholder="Country" />
+            <Input  placeholder="Nombre del proveedor."></Input>
+            <Input  placeholder="Calle y numero"></Input>
+            <Input  placeholder="Ciudad"></Input>
+            <Input  placeholder="Estado"></Input>
+            <Input  placeholder="Pais"></Input>
 
             {/* Proyecto como combobox */}
             <Select.Root value={proyecto} onValueChange={setProyecto}>
-              <Select.Trigger placeholder="Proyect" />
+              <Select.Trigger placeholder="Proyecto" />
               <Select.Content>
                 {proveedorOptions.map((op) => (
                   <Select.Item key={op} value={op}>
@@ -78,7 +80,7 @@ export default function InformacionProveedor() {
 
             {/* Estatus con opciones fijas */}
             <Select.Root value={estatus} onValueChange={setEstatus}>
-              <Select.Trigger placeholder="Status" />
+              <Select.Trigger placeholder="Estatus" />
               <Select.Content>
                 {statusOptions.map((op) => (
                   <Select.Item key={op} value={op}>
@@ -89,7 +91,7 @@ export default function InformacionProveedor() {
             </Select.Root>
 
             {/* Botón */}
-            <SubmitButton>Add supplier</SubmitButton>
+            <SubmitButton>Siguiente</SubmitButton>
           </Flex>
         </Box>
       </Flex>

@@ -9,15 +9,25 @@ import SideBar from '@/components/SideBar';
 
 
 export default function Dashboard() {
+
+  
   
   return (
     <>
-    <div className='flex'>
-        <SideBar></SideBar>
-        <div className='flex-1 min-h-screen bg-blue-200 flex items-center justify-center'>
-        <h1 className='text-3xl font-bold'>DashBoard</h1>
-        </div>
-        </div>
+   <div className='flex'>
+  <SideBar />
+
+  {/* Contenedor principal */}
+  <div className='flex-1 min-h-screen bg-blue-200 flex flex-col items-center justify-start px-6 py-8 gap-6'>
+
+    <h1 className='text-3xl font-bold mt-10'>Dashboard</h1>
+
+
+
+ 
+  </div>
+</div>
+
         </>
   
     
