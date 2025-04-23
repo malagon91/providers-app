@@ -1,20 +1,19 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Box, Container, Flex, Text } from '@radix-ui/themes';
+import Image from 'next/image';
+import { Box, Container, Flex } from '@radix-ui/themes';
+import { images } from '@/assets/images';
 import Link from 'next/link';
 
 export default function Navbar() {
   return (
     <Box asChild py="3" className="border-b border-gray-200">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-20">
         <Container>
           <Flex justify="between" align="center">
             <Link href="/">
-              <Text size="5" weight="bold">
-                MyApp
-              </Text>
+              <Image src={images.logo} alt="logo" className="h-16 w-28" />
             </Link>
-
             <Flex gap="3">
               <Link href="/sign-in">
                 <Button variant="secondary">Login</Button>
