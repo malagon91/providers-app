@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Select} from '@radix-ui/themes';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 interface Props {
   open: boolean;
@@ -16,13 +17,13 @@ const statusOptions = [
     "Activo",
     "Inactivo",
   ];
-  
+
   const supplierOptions = [
     "Proyecto A",
     "Proyecto B",
     "Proyecto C",
   ];
-  
+
   const commodityOptions = [
     "Componente X",
     "Componente Y",
@@ -38,28 +39,31 @@ const [status, setStatus] = React.useState("");
 
   const inputStyle = {
     display: 'flex',
-    height: '2.5rem',       
+    height: '2.5rem',
     width: '100%',
-    borderRadius: '0.375rem', 
-    borderWidth: '1px',       
-    borderColor: 'hsl(var(--input))', 
-    backgroundColor: 'hsl(var(--background))', 
-    paddingLeft: '0.75rem',   
-    paddingRight: '0.75rem',  
-    paddingTop: '0.5rem',     
-    paddingBottom: '0.5rem',  
-    fontSize: '0.875rem',     
+    borderRadius: '0.375rem',
+    borderWidth: '1px',
+    borderColor: 'hsl(var(--input))',
+    backgroundColor: 'hsl(var(--background))',
+    paddingLeft: '0.75rem',
+    paddingRight: '0.75rem',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
+    fontSize: '0.875rem',
     lineHeight: '1.5rem',
     outline: 'none',
-    ringOffsetWidth: '2px',   
-    cursor: 'default',      
-    opacity: '1',         
+    ringOffsetWidth: '2px',
+    cursor: 'default',
+    opacity: '1',
   };
 
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Content maxWidth="450px">
+        <Dialog.Title>
+          <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
+        </Dialog.Title>
         <Flex direction="column" gap="3">
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
@@ -107,7 +111,7 @@ const [status, setStatus] = React.useState("");
                           </Select.Content>
                         </Select.Root>
           </label>
-          
+
 
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
@@ -123,7 +127,7 @@ const [status, setStatus] = React.useState("");
                             ))}
                           </Select.Content>
                         </Select.Root>
-          </label>                            
+          </label>
 
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
@@ -139,7 +143,7 @@ const [status, setStatus] = React.useState("");
                             ))}
                           </Select.Content>
                         </Select.Root>
-          </label>                                                
+          </label>
 
 
         </Flex>
