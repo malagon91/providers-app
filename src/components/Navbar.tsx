@@ -19,7 +19,7 @@ export default function Navbar() {
               <Link href="/sign-in">
                 <Button variant="secondary">Login</Button>
               </Link>
-              <Link href="/register">
+              <Link href="/sign-up">
                 <Button variant="default">Register</Button>
               </Link>
             </Flex>
