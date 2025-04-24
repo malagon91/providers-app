@@ -1,17 +1,61 @@
-import { Heading, Text } from '@radix-ui/themes';
-
+import { Button } from '@/components/ui/button';
 export default function HomePage() {
   return (
     <>
-      <main className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50">
-        <Heading size="8" as="h1" className="text-center mb-4">
-          Welcome to <span className="text-blue-600">MyApp</span>
-        </Heading>
-        <Text size="4" color="gray" className="text-center max-w-xl">
-          This page uses <strong>Tailwind CSS v4</strong> +{' '}
-          <strong>Radix UI Themes</strong> to style components. If you're seeing
-          this layout correctly, everything is working! 🎉
-        </Text>
+      <main className="flex flex-col items-center justify-center min-h-screen px-4">
+        <div className="relative h-[50vh] flex items-center justify-center ">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black mb-6">
+              Digital Product
+            </h1>
+            <p className="text-xl text-black mb-8 max-w-2xl mx-auto">
+              Nuestro producto es una herramienta que te ayuda a crear un
+              producto o servicio que te captiva tu audiencia y explica tu
+              valor.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button>Get Started</Button>
+              <Button variant="outline">Learn More</Button>
+            </div>
+          </div>
+        </div>
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Nuestras funcionalidades
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-6 bg-gray-50 rounded-lg">
+                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4"></div>
+                <h3 className="text-xl font-semibold mb-2">
+                  Gestión de clientes
+                </h3>
+                <p className="text-gray-600">
+                  Funcionalidad de tu producto o servicio que te captiva tu
+                  audiencia y explica tu valor.
+                </p>
+              </div>
+              <div className="p-6 bg-gray-50 rounded-lg">
+                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4"></div>
+                <h3 className="text-xl font-semibold mb-2">
+                  Trabajo en equipo
+                </h3>
+                <p className="text-gray-600">
+                  Funcionalidad de tu producto o servicio que te captiva tu
+                  audiencia y explica tu valor.
+                </p>
+              </div>
+              <div className="p-6 bg-gray-50 rounded-lg">
+                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4"></div>
+                <h3 className="text-xl font-semibold mb-2">Organización</h3>
+                <p className="text-gray-600">
+                  Funcionalidad de tu producto o servicio que te captiva tu
+                  audiencia y explica tu valor.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </>
   );
