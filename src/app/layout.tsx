@@ -30,15 +30,7 @@ export default function RootLayout({
           scaling="100%"
           radius="full"
         >
-          <main className="min-h-screen flex flex-col items-center">
-            <Navbar />
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
-                {children}
-              </div>
-              <Footer />
-            </div>
-          </main>
+          {children}
         </Theme>
       </body>
     </html>
