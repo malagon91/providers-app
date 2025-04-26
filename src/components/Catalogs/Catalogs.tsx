@@ -4,18 +4,12 @@ import {
   Table,
   Tabs,
   Box,
-  Dialog,
+  Container,
   Button as RadixButton,
   DropdownMenu,
 } from '@radix-ui/themes';
-import {
-  PlusIcon,
-  MagnifyingGlassIcon,
-  MixerHorizontalIcon,
-  Cross2Icon,
-} from '@radix-ui/react-icons';
-import { Button } from '@/components/ui/button';
-import NewProduct from '@/components/NewProduct';
+import { PlusIcon, Cross2Icon } from '@radix-ui/react-icons';
+import Category from './Category/Category';
 
 type Product = {
   id: number;
@@ -47,7 +41,7 @@ type Other = {
 enum TabType {
   PRODUCTS = 'products',
   COMMODITIES = 'commodities',
-  OTHERS = 'others',
+  CATEGORY = 'category',
 }
 
 function Catalogs() {
@@ -271,7 +265,7 @@ function Catalogs() {
         return products;
       case TabType.COMMODITIES:
         return commodities;
-      case TabType.OTHERS:
+      case TabType.CATEGORY:
         return others;
       default:
         return products;
@@ -404,7 +398,7 @@ function Catalogs() {
   };
 
   return (
-    <>
+    <Container size="4" minWidth="1200px">
       <Tabs.Root
         defaultValue={TabType.PRODUCTS}
         onValueChange={(value) => {
@@ -416,49 +410,21 @@ function Catalogs() {
         <Tabs.List>
           <Tabs.Trigger value={TabType.PRODUCTS}>Productos</Tabs.Trigger>
           <Tabs.Trigger value={TabType.COMMODITIES}>Commodities</Tabs.Trigger>
-          <Tabs.Trigger value={TabType.OTHERS}>Otros</Tabs.Trigger>
+          <Tabs.Trigger value={TabType.CATEGORY}>Categorias</Tabs.Trigger>
         </Tabs.List>
 
-        <div className="flex gap-3 mt-4">
-          <Dialog.Root>
-            <Dialog.Trigger>
-              <Button variant="secondary">
-                <PlusIcon /> Nuevo
-              </Button>
-            </Dialog.Trigger>
-            <NewProduct />
-          </Dialog.Root>
+        <DropdownMenu.Root>
+          <DropdownMenu.Content>
+            <DropdownMenu.Sub>
+              <DropdownMenu.SubTrigger>Categoria</DropdownMenu.SubTrigger>
+              <DropdownMenu.SubContent>
+                <DropdownMenu.Item>Electrónicos</DropdownMenu.Item>
 
-          <div className="flex-1 relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon />
-            </div>
-            <input
-              type="text"
-              placeholder={`Buscar ${currentTab}...`}
-              className="w-full pl-10 pr-3 py-2 border rounded-md"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </div>
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger>
-              <Button variant="secondary">
-                <MixerHorizontalIcon /> Filtros
-              </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.Sub>
-                <DropdownMenu.SubTrigger>Categoria</DropdownMenu.SubTrigger>
-                <DropdownMenu.SubContent>
-                  <DropdownMenu.Item>Electrónicos</DropdownMenu.Item>
-
-                  <DropdownMenu.Item>Accesorios</DropdownMenu.Item>
-                </DropdownMenu.SubContent>
-              </DropdownMenu.Sub>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        </div>
+                <DropdownMenu.Item>Accesorios</DropdownMenu.Item>
+              </DropdownMenu.SubContent>
+            </DropdownMenu.Sub>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
 
         <Box pt="3">
           <Tabs.Content value={TabType.PRODUCTS}>
@@ -471,13 +437,12 @@ function Catalogs() {
             {renderPagination()}
           </Tabs.Content>
 
-          <Tabs.Content value={TabType.OTHERS}>
-            {renderTable(currentItemsToShow)}
-            {renderPagination()}
+          <Tabs.Content value={TabType.CATEGORY}>
+            <Category />
           </Tabs.Content>
         </Box>
       </Tabs.Root>
-    </>
+    </Container>
   );
 }
 

@@ -1,7 +1,8 @@
 'use client';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import SideBar from '@/components/SideBar';
 import NavbarAuth from '@/components/NavbarAuth';
-import React from 'react';
 
 export default async function Layout({
   children,
@@ -21,6 +22,7 @@ export default async function Layout({
           {children}
         </div>
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }

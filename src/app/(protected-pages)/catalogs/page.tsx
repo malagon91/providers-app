@@ -1,6 +1,6 @@
 'use server';
 import withAuth from '@/HOC/WithAuth';
-import Catalogs from '@/components/Catalogs';
+import Catalogs from '@/components/Catalogs/Catalogs';
 import React from 'react';
 
 function AdminSuppliers({ user }: { user: any }) {
