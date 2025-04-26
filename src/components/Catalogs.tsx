@@ -4,6 +4,7 @@ import { Table, Tabs, Box, Dialog, Button as RadixButton, DropdownMenu } from '@
 import { PlusIcon, MagnifyingGlassIcon, MixerHorizontalIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { Button } from '@/components/ui/button';
 import NewProduct from '@/components/NewProduct';
+import NewCategory from '@/components/NewCategory';
 
 type Product = {
   id: number;
@@ -435,7 +436,7 @@ function Catalogs() {
                 <PlusIcon /> Nuevo
               </Button>
             </Dialog.Trigger>
-            <NewProduct />
+            {currentTab === TabType.CATEGORIES ? <NewCategory /> : <NewProduct />}
           </Dialog.Root>
 
           <div className="flex-1 relative">
@@ -450,13 +451,17 @@ function Catalogs() {
               onChange={handleSearchChange}
             />
           </div>
-          <DropdownMenu.Root>
+          
+          {currentTab === TabType.CATEGORIES ? <Button disabled variant="secondary">
+            <MixerHorizontalIcon /> Filtros
+          </Button> : <DropdownMenu.Root>
           <DropdownMenu.Trigger>
 
 
           <Button variant="secondary">
             <MixerHorizontalIcon /> Filtros
           </Button>
+          
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
 		<DropdownMenu.Sub>
@@ -473,7 +478,8 @@ function Catalogs() {
 		
     </DropdownMenu.Content>
 
-                    </DropdownMenu.Root>
+                    </DropdownMenu.Root>}
+          
         </div>
 
         <Box pt="3">
