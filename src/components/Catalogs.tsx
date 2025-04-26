@@ -23,19 +23,17 @@ type Commoditi = {
   stock: number;
 };
 
-type Other = {
+type Categories = {
   id: number;
   code: string;
   name: string;
-  category: string;
-  price: number;
-  stock: number;
+  
 };
 
 enum TabType {
   PRODUCTS = 'products',
   COMMODITIES = 'commodities',
-  OTHERS = 'others'
+  CATEGORIES = 'categories'
 }
 
 function Catalogs() {
@@ -227,22 +225,25 @@ function Catalogs() {
     },
   ]);
 
-  const [others, setOthers] = useState<Other[]>([
+  type Categorys = {
+    id: number;
+    code: string;
+    name: string;
+    
+  };
+
+  const [categorys, setCategorys] = useState<Categorys[]>([
     {
       id: 1,
-      code: "OTH001",
-      name: "Servicio Técnico",
-      category: "Servicios",
-      price: 49.99,
-      stock: 999
+      code: "CAT01",
+      name: "Productos",
+      
     },
     {
       id: 2,
-      code: "OTH002",
-      name: "Garantía Extendida",
-      category: "Servicios",
-      price: 99.99,
-      stock: 999
+      code: "CAT02",
+      name: "Commodities",
+      
     }
   ]);
 
@@ -257,8 +258,8 @@ function Catalogs() {
         return products;
       case TabType.COMMODITIES:
         return commodities;
-      case TabType.OTHERS:
-        return others;
+      case TabType.CATEGORIES:
+        return categorys;
       default:
         return products;
     }
@@ -267,16 +268,33 @@ function Catalogs() {
   const filteredItems = useMemo(() => {
     const items = getCurrentItems();
     if (!searchTerm) return items;
-
+  
     const term = searchTerm.toLowerCase();
-    return items.filter(item =>
-      item.code.toLowerCase().includes(term) ||
-      item.name.toLowerCase().includes(term) ||
-      item.category.toLowerCase().includes(term) ||
-      item.price.toString().includes(term) ||
-      item.stock.toString().includes(term)
-    );
-  }, [currentTab, products, commodities, others, searchTerm]);
+    
+    return items.filter(item => {
+      // Filtrado común para todos los tipos
+      const matchesCode = item.code.toLowerCase().includes(term);
+      const matchesName = item.name.toLowerCase().includes(term);
+      
+      // Filtrado específico según el tipo
+      switch (currentTab) {
+        case TabType.PRODUCTS:
+        case TabType.COMMODITIES:
+          const productOrCommodity = item as Product | Commoditi;
+          return (
+            matchesCode ||
+            matchesName ||
+            productOrCommodity.category.toLowerCase().includes(term) ||
+            productOrCommodity.price.toString().includes(term) ||
+            productOrCommodity.stock.toString().includes(term)
+          );
+        case TabType.CATEGORIES:
+          return matchesCode || matchesName;
+        default:
+          return matchesCode || matchesName;
+      }
+    });
+  }, [currentTab, products, commodities, categorys, searchTerm]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -290,17 +308,21 @@ function Catalogs() {
     setCurrentPage(1);
   };
 
-  const renderTable = (items: (Product | Commoditi | Other)[]) => {
+  const renderTable = (items: (Product | Commoditi | Categorys)[], tab: TabType) => {
     return (
       <Table.Root>
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Codigo</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Código</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Nombre</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Categoria</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Precio</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Stock</Table.ColumnHeaderCell>
+            {tab !== TabType.CATEGORIES && (
+              <>
+                <Table.ColumnHeaderCell>Categoría</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Precio</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Stock</Table.ColumnHeaderCell>
+              </>
+            )}
             <Table.ColumnHeaderCell>Acciones</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -310,17 +332,29 @@ function Catalogs() {
               <Table.RowHeaderCell>{item.id}</Table.RowHeaderCell>
               <Table.Cell>{item.code}</Table.Cell>
               <Table.Cell>{item.name}</Table.Cell>
-              <Table.Cell>
-                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                  ${item.category === "Electrónicos" ? 'bg-blue-100 text-blue-800' : 
-                    item.category === "Acabados" ? 'bg-yellow-100 text-yellow-800' :
-                    item.category === "Ensamble" ? 'bg-red-100 text-red-800' :
-                    'bg-green-100 text-green-800'}`}>
-                  {item.category}
-                </span>
-              </Table.Cell>
-              <Table.Cell>${item.price.toFixed(2)}</Table.Cell>
-              <Table.Cell>{item.stock}</Table.Cell>
+              
+              {tab !== TabType.CATEGORIES && (
+                <>
+                  <Table.Cell>
+                    {'category' in item && (
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        ${item.category === "Electrónicos" ? 'bg-blue-100 text-blue-800' : 
+                          item.category === "Acabados" ? 'bg-yellow-100 text-yellow-800' :
+                          item.category === "Ensamble" ? 'bg-red-100 text-red-800' :
+                          'bg-green-100 text-green-800'}`}>
+                        {item.category}
+                      </span>
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {'price' in item ? `$${item.price.toFixed(2)}` : '-'}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {'stock' in item ? item.stock : '-'}
+                  </Table.Cell>
+                </>
+              )}
+              
               <Table.Cell>
                 <button className="p-1 rounded-md bg-gray-100 hover:bg-gray-200">
                   <PlusIcon className="w-4 h-4" />
@@ -335,6 +369,8 @@ function Catalogs() {
       </Table.Root>
     );
   };
+    
+  
 
   const renderPagination = () => {
     if (filteredItems.length === 0) {
@@ -389,7 +425,7 @@ function Catalogs() {
         <Tabs.List>
           <Tabs.Trigger value={TabType.PRODUCTS}>Productos</Tabs.Trigger>
           <Tabs.Trigger value={TabType.COMMODITIES}>Commodities</Tabs.Trigger>
-          <Tabs.Trigger value={TabType.OTHERS}>Otros</Tabs.Trigger>
+          <Tabs.Trigger value={TabType.CATEGORIES}>Categorias</Tabs.Trigger>
         </Tabs.List>
         
         <div className="flex gap-3 mt-4">
@@ -442,17 +478,20 @@ function Catalogs() {
 
         <Box pt="3">
           <Tabs.Content value={TabType.PRODUCTS}>
-            {renderTable(currentItemsToShow)}
+          {renderTable(filteredItems, currentTab)}
+
             {renderPagination()}
           </Tabs.Content>
 
           <Tabs.Content value={TabType.COMMODITIES}>
-            {renderTable(currentItemsToShow)}
+          {renderTable(filteredItems, currentTab)}
+
             {renderPagination()}
           </Tabs.Content>
 
-          <Tabs.Content value={TabType.OTHERS}>
-            {renderTable(currentItemsToShow)}
+          <Tabs.Content value={TabType.CATEGORIES}>
+          {renderTable(filteredItems, currentTab)}
+
             {renderPagination()}
           </Tabs.Content>
         </Box>
