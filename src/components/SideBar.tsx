@@ -1,40 +1,13 @@
 'use client';
+import React, { FC } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { FiHome, FiUsers, FiMail, FiSettings, FiArchive } from 'react-icons/fi';
 import Image from 'next/image';
 import { images } from '@/assets/images';
+import { menuItems } from '@/routes';
+import { useMainStore } from '@/store/useMainStore';
 
-const SideBar: React.FC = () => {
-  const [activeItem, setActiveItem] = useState('Dashboard');
-
-  const menuItems = [
-    {
-      name: 'Inicio',
-      icon: <FiHome className="text-lg" />,
-      href: '/dashboard',
-    },
-    {
-      name: 'Administrar proveedores',
-      icon: <FiUsers className="text-lg" />,
-      href: 'Supplier-Management',
-    },
-    {
-      name: 'Catalogos',
-      icon: <FiArchive className="text-lg" />,
-      href: 'Catalogs',
-    },
-    {
-      name: 'Mensajes',
-      icon: <FiMail className="text-lg" />,
-      href: 'Supplier-Management',
-    },
-    {
-      name: 'Configuracion',
-      icon: <FiSettings className="text-lg" />,
-      href: 'Supplier-Management',
-    },
-  ];
+const SideBar: FC = () => {
+  const { selectedMenuItem, setSelectedMenuItem } = useMainStore();
 
   return (
     <div
@@ -44,7 +17,7 @@ const SideBar: React.FC = () => {
     >
       <nav className="flex-1 overflow-y-auto py-2">
         <Link
-          href="/"
+          href="/dashboard"
           className={`flex items-start p-3 mx-1 my-1 rounded-lg cursor-pointer transition-colors text-gray-700 hover:bg-gray-100`}
         >
           <Image
@@ -58,17 +31,17 @@ const SideBar: React.FC = () => {
         </Link>
         {menuItems.map((item) => (
           <Link
-            key={item.name}
+            key={item.id}
             href={item.href}
-            onClick={() => setActiveItem(item.name)}
+            onClick={() => setSelectedMenuItem(item)}
             className={`flex items-start p-3 mx-2 my-1 rounded-lg cursor-pointer transition-colors ${
-              activeItem === item.name
+              selectedMenuItem.id === item.id
                 ? 'bg-blue-50 text-blue-600'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >
             <span className=" group-hover:mr-3 transition-all duration-300">
-              {item.icon}
+              <item.icon className="text-lg" />
             </span>
             <span className="text-sm font-medium overflow-hidden whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300">
               {item.name}

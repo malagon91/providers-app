@@ -1,10 +1,20 @@
 'use client';
-import Image from 'next/image';
-import { Box, Container, Flex, Text, Card, Avatar } from '@radix-ui/themes';
-import Link from 'next/link';
+import {
+  Box,
+  Container,
+  Flex,
+  Text,
+  Card,
+  Avatar,
+  Heading,
+} from '@radix-ui/themes';
 import { images } from '@/assets/images';
+import { useMainStore } from '@/store/useMainStore';
+import Image from 'next/image';
+import React from 'react';
 
-export default function NavbarLogin() {
+export default function NavbarAuth() {
+  const { selectedMenuItem } = useMainStore();
   return (
     <Box
       asChild
@@ -14,13 +24,16 @@ export default function NavbarLogin() {
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-18 overflow-hidden">
         <Container>
           <Flex justify="between" align="center">
-            <Link href="/" className=" overflow-hidden">
-              <Image
-                className="w-[200px] h-[60px]"
-                src={images.logoComplete}
-                alt="logo"
-              />
-            </Link>
+            <Box>
+              <Heading
+                as="h1"
+                size="5"
+                className="text-foreground"
+                weight="bold"
+              >
+                {selectedMenuItem.name || 'Digital Product'}
+              </Heading>
+            </Box>
             <Flex gap="3">
               <Box maxWidth="240px">
                 <Card variant="ghost">

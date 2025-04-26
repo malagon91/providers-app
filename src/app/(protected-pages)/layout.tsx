@@ -1,4 +1,4 @@
-'use server';
+'use client';
 import SideBar from '@/components/SideBar';
 
 export default async function Layout({
