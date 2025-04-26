@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FiHome, FiUsers, FiMail, FiSettings } from 'react-icons/fi';
+import { FiHome, FiUsers, FiMail, FiSettings, FiArchive} from 'react-icons/fi';
 import Image from 'next/image';
 import { images } from '@/assets/images';
 
@@ -20,9 +20,9 @@ const SideBar: React.FC = () => {
       href: 'Supplier-Management',
     },
     {
-      name: 'Administrar usuarios',
-      icon: <FiUsers className="text-lg" />,
-      href: 'Supplier-Management',
+      name: 'Catalogos',
+      icon: <FiArchive className="text-lg" />,
+      href: 'Catalogs',
     },
     {
       name: 'Mensajes',

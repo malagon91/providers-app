@@ -18,10 +18,10 @@ const statusOptions = [
     "Inactivo",
   ];
 
-  const supplierOptions = [
-    "Proyecto A",
-    "Proyecto B",
-    "Proyecto C",
+  const category = [
+    "Productos",
+    "Commodities",
+    "Otros",
   ];
 
   const commodityOptions = [
@@ -30,7 +30,7 @@ const statusOptions = [
     "Componente Z",
   ];
 
-const NewProviders = () => {
+const NewProduct = () => {
 
 const [status, setStatus] = React.useState("");
   const [proyect, setProyect] = React.useState("");
@@ -62,48 +62,35 @@ const [status, setStatus] = React.useState("");
     
       <Dialog.Content maxWidth="450px">
         <Dialog.Title>
-          <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
+          <VisuallyHidden>Agregar Nuevo Producto</VisuallyHidden>
         </Dialog.Title>
         <Flex direction="column" gap="3">
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
+              Id
+            </Text>
+            <Input  placeholder="Ingresa el id."></Input>
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Codigo
+            </Text>
+            <Input  placeholder="Ingresa el codigo."></Input>
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
               Nombre
             </Text>
-            <Input  placeholder="Nombre del proveedor."></Input>
+            <Input  placeholder="Ingresa el nombre."></Input>
           </label>
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
-              Direccion
-            </Text>
-            <Input  placeholder="Calle y numero"></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Ciudad
-            </Text>
-            <Input  placeholder="Ciudad"></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Estado
-            </Text>
-            <Input  placeholder="Estado"></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Pais
-            </Text>
-            <Input  placeholder="Pais"></Input>
-          </label>
-
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Proyecto
+              Categoria
             </Text>
             <Select.Root value={proyect} onValueChange={setProyect}>
-                          <Select.Trigger placeholder="Proyecto" style={inputStyle} />
+                          <Select.Trigger placeholder="Selecciona la categoria." style={inputStyle} />
                           <Select.Content>
-                            {supplierOptions.map((op) => (
+                            {category.map((op) => (
                               <Select.Item key={op} value={op}>
                                 {op}
                               </Select.Item>
@@ -111,39 +98,13 @@ const [status, setStatus] = React.useState("");
                           </Select.Content>
                         </Select.Root>
           </label>
-
-
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
-              Estatus
+              Stock
             </Text>
-            <Select.Root value={status} onValueChange={setStatus}>
-                          <Select.Trigger placeholder="Estatus" style={inputStyle}/>
-                          <Select.Content>
-                            {statusOptions.map((op) => (
-                              <Select.Item key={op} value={op}>
-                                {op}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
+            <Input  placeholder="Ingresa el stock."></Input>
           </label>
-
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Producto
-            </Text>
-            <Select.Root value={commodity} onValueChange={setCommodity}>
-                          <Select.Trigger placeholder="Producto" style={inputStyle} />
-                          <Select.Content>
-                            {commodityOptions.map((op) => (
-                              <Select.Item key={op} value={op}>
-                                {op}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-          </label>
+          
 
 
         </Flex>
@@ -163,4 +124,4 @@ const [status, setStatus] = React.useState("");
   );
 };
 
-export default NewProviders;
+export default NewProduct;
