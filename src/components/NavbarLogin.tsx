@@ -22,28 +22,26 @@ export default function NavbarLogin() {
               />
             </Link>
             <Flex gap="3">
-              
-            <Box maxWidth="240px">
-	<Card variant='ghost'>
-		<Flex gap="3" align="center">
-			<Avatar
-				size="3"
-				src={images.avatar.src}
-				radius="full"
-				fallback="T"
-			/>
-			<Box>
-				<Text as="div" size="2" weight="bold">
-					Miguel Malagon
-				</Text>
-				<Text as="div" size="2" color="gray">
-					Administrador
-				</Text>
-			</Box>
-		</Flex>
-	</Card>
-</Box>
-
+              <Box maxWidth="240px">
+                <Card variant="ghost">
+                  <Flex gap="3" align="center">
+                    <Avatar
+                      size="3"
+                      src={images.avatar.src}
+                      radius="full"
+                      fallback="T"
+                    />
+                    <Box>
+                      <Text as="div" size="2" weight="bold">
+                        Miguel Malagon
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        Administrador
+                      </Text>
+                    </Box>
+                  </Flex>
+                </Card>
+              </Box>
             </Flex>
           </Flex>
         </Container>

@@ -6,6 +6,6 @@ import Avatar from './img/Avatar_Png.png';
 export const images = {
   logo: Logo,
   logoSmall: LogoSmall,
-  logoComplete : LogoComplete,
-  avatar: Avatar
+  logoComplete: LogoComplete,
+  avatar: Avatar,
 };

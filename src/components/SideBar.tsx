@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FiHome, FiUsers, FiMail, FiSettings, FiArchive} from 'react-icons/fi';
+import { FiHome, FiUsers, FiMail, FiSettings, FiArchive } from 'react-icons/fi';
 import Image from 'next/image';
 import { images } from '@/assets/images';
 

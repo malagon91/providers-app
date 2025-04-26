@@ -1,8 +1,8 @@
-'use client'
+'use client';
 import React from 'react';
 import { Dialog, Flex, Text, TextField } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
-import { Select} from '@radix-ui/themes';
+import { Select } from '@radix-ui/themes';
 import { Button } from '@/components/ui/button';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
@@ -11,31 +11,16 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
-const statusOptions = [
-    "En Progreso",
-    "En Hold",
-    "Activo",
-    "Inactivo",
-  ];
+const statusOptions = ['En Progreso', 'En Hold', 'Activo', 'Inactivo'];
 
-  const category = [
-    "Productos",
-    "Commodities",
-    "Otros",
-  ];
+const category = ['Productos', 'Commodities', 'Otros'];
 
-  const commodityOptions = [
-    "Componente X",
-    "Componente Y",
-    "Componente Z",
-  ];
+const commodityOptions = ['Componente X', 'Componente Y', 'Componente Z'];
 
 const NewProduct = () => {
-
-const [status, setStatus] = React.useState("");
-  const [proyect, setProyect] = React.useState("");
-  const [commodity, setCommodity] = React.useState("");
-
+  const [status, setStatus] = React.useState('');
+  const [proyect, setProyect] = React.useState('');
+  const [commodity, setCommodity] = React.useState('');
 
   const inputStyle = {
     display: 'flex',
@@ -57,70 +42,67 @@ const [status, setStatus] = React.useState("");
     opacity: '1',
   };
 
-
   return (
-    
-      <Dialog.Content maxWidth="450px">
-        <Dialog.Title>
-          <VisuallyHidden>Agregar Nuevo Producto</VisuallyHidden>
-        </Dialog.Title>
-        <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Id
-            </Text>
-            <Input  placeholder="Ingresa el id."></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Codigo
-            </Text>
-            <Input  placeholder="Ingresa el codigo."></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nombre
-            </Text>
-            <Input  placeholder="Ingresa el nombre."></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Categoria
-            </Text>
-            <Select.Root value={proyect} onValueChange={setProyect}>
-                          <Select.Trigger placeholder="Selecciona la categoria." style={inputStyle} />
-                          <Select.Content>
-                            {category.map((op) => (
-                              <Select.Item key={op} value={op}>
-                                {op}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Stock
-            </Text>
-            <Input  placeholder="Ingresa el stock."></Input>
-          </label>
-          
+    <Dialog.Content maxWidth="450px">
+      <Dialog.Title>
+        <VisuallyHidden>Agregar Nuevo Producto</VisuallyHidden>
+      </Dialog.Title>
+      <Flex direction="column" gap="3">
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Id
+          </Text>
+          <Input placeholder="Ingresa el id."></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Codigo
+          </Text>
+          <Input placeholder="Ingresa el codigo."></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Nombre
+          </Text>
+          <Input placeholder="Ingresa el nombre."></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Categoria
+          </Text>
+          <Select.Root value={proyect} onValueChange={setProyect}>
+            <Select.Trigger
+              placeholder="Selecciona la categoria."
+              style={inputStyle}
+            />
+            <Select.Content>
+              {category.map((op) => (
+                <Select.Item key={op} value={op}>
+                  {op}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Stock
+          </Text>
+          <Input placeholder="Ingresa el stock."></Input>
+        </label>
+      </Flex>
 
-
-        </Flex>
-
-        <Flex gap="3" mt="4" justify="end">
-          <Dialog.Close>
-            <Button variant="secondary" color="gray" >
-              Cancelar
-            </Button>
-          </Dialog.Close>
-          <Dialog.Close>
-            <Button variant='default'>Siguiente</Button>
-          </Dialog.Close>
-        </Flex>
-      </Dialog.Content>
-    
+      <Flex gap="3" mt="4" justify="end">
+        <Dialog.Close>
+          <Button variant="secondary" color="gray">
+            Cancelar
+          </Button>
+        </Dialog.Close>
+        <Dialog.Close>
+          <Button variant="default">Siguiente</Button>
+        </Dialog.Close>
+      </Flex>
+    </Dialog.Content>
   );
 };
 

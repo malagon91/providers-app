@@ -1,8 +1,8 @@
-'use client'
+'use client';
 import React from 'react';
 import { Dialog, Flex, Text, TextField } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
-import { Select} from '@radix-ui/themes';
+import { Select } from '@radix-ui/themes';
 import { Button } from '@/components/ui/button';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
@@ -11,31 +11,16 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
-const statusOptions = [
-    "En Progreso",
-    "En Hold",
-    "Activo",
-    "Inactivo",
-  ];
+const statusOptions = ['En Progreso', 'En Hold', 'Activo', 'Inactivo'];
 
-  const supplierOptions = [
-    "Proyecto A",
-    "Proyecto B",
-    "Proyecto C",
-  ];
+const supplierOptions = ['Proyecto A', 'Proyecto B', 'Proyecto C'];
 
-  const commodityOptions = [
-    "Componente X",
-    "Componente Y",
-    "Componente Z",
-  ];
+const commodityOptions = ['Componente X', 'Componente Y', 'Componente Z'];
 
 const NewProviders = () => {
-
-const [status, setStatus] = React.useState("");
-  const [proyect, setProyect] = React.useState("");
-  const [commodity, setCommodity] = React.useState("");
-
+  const [status, setStatus] = React.useState('');
+  const [proyect, setProyect] = React.useState('');
+  const [commodity, setCommodity] = React.useState('');
 
   const inputStyle = {
     display: 'flex',
@@ -57,109 +42,103 @@ const [status, setStatus] = React.useState("");
     opacity: '1',
   };
 
-
   return (
-    
-      <Dialog.Content maxWidth="450px">
-        <Dialog.Title>
-          <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
-        </Dialog.Title>
-        <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nombre
-            </Text>
-            <Input  placeholder="Nombre del proveedor."></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Direccion
-            </Text>
-            <Input  placeholder="Calle y numero"></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Ciudad
-            </Text>
-            <Input  placeholder="Ciudad"></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Estado
-            </Text>
-            <Input  placeholder="Estado"></Input>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Pais
-            </Text>
-            <Input  placeholder="Pais"></Input>
-          </label>
+    <Dialog.Content maxWidth="450px">
+      <Dialog.Title>
+        <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
+      </Dialog.Title>
+      <Flex direction="column" gap="3">
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Nombre
+          </Text>
+          <Input placeholder="Nombre del proveedor."></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Direccion
+          </Text>
+          <Input placeholder="Calle y numero"></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Ciudad
+          </Text>
+          <Input placeholder="Ciudad"></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Estado
+          </Text>
+          <Input placeholder="Estado"></Input>
+        </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Pais
+          </Text>
+          <Input placeholder="Pais"></Input>
+        </label>
 
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Proyecto
-            </Text>
-            <Select.Root value={proyect} onValueChange={setProyect}>
-                          <Select.Trigger placeholder="Proyecto" style={inputStyle} />
-                          <Select.Content>
-                            {supplierOptions.map((op) => (
-                              <Select.Item key={op} value={op}>
-                                {op}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-          </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Proyecto
+          </Text>
+          <Select.Root value={proyect} onValueChange={setProyect}>
+            <Select.Trigger placeholder="Proyecto" style={inputStyle} />
+            <Select.Content>
+              {supplierOptions.map((op) => (
+                <Select.Item key={op} value={op}>
+                  {op}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        </label>
 
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Estatus
+          </Text>
+          <Select.Root value={status} onValueChange={setStatus}>
+            <Select.Trigger placeholder="Estatus" style={inputStyle} />
+            <Select.Content>
+              {statusOptions.map((op) => (
+                <Select.Item key={op} value={op}>
+                  {op}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        </label>
 
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Estatus
-            </Text>
-            <Select.Root value={status} onValueChange={setStatus}>
-                          <Select.Trigger placeholder="Estatus" style={inputStyle}/>
-                          <Select.Content>
-                            {statusOptions.map((op) => (
-                              <Select.Item key={op} value={op}>
-                                {op}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-          </label>
+        <label>
+          <Text as="div" size="2" mb="1" weight="bold">
+            Producto
+          </Text>
+          <Select.Root value={commodity} onValueChange={setCommodity}>
+            <Select.Trigger placeholder="Producto" style={inputStyle} />
+            <Select.Content>
+              {commodityOptions.map((op) => (
+                <Select.Item key={op} value={op}>
+                  {op}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select.Root>
+        </label>
+      </Flex>
 
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Producto
-            </Text>
-            <Select.Root value={commodity} onValueChange={setCommodity}>
-                          <Select.Trigger placeholder="Producto" style={inputStyle} />
-                          <Select.Content>
-                            {commodityOptions.map((op) => (
-                              <Select.Item key={op} value={op}>
-                                {op}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-          </label>
-
-
-        </Flex>
-
-        <Flex gap="3" mt="4" justify="end">
-          <Dialog.Close>
-            <Button variant="secondary" color="gray" >
-              Cancelar
-            </Button>
-          </Dialog.Close>
-          <Dialog.Close>
-            <Button variant='default'>Siguiente</Button>
-          </Dialog.Close>
-        </Flex>
-      </Dialog.Content>
-    
+      <Flex gap="3" mt="4" justify="end">
+        <Dialog.Close>
+          <Button variant="secondary" color="gray">
+            Cancelar
+          </Button>
+        </Dialog.Close>
+        <Dialog.Close>
+          <Button variant="default">Siguiente</Button>
+        </Dialog.Close>
+      </Flex>
+    </Dialog.Content>
   );
 };
 
