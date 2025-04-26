@@ -10,7 +10,6 @@ import {
 } from '@radix-ui/themes';
 import { images } from '@/assets/images';
 import { useMainStore } from '@/store/useMainStore';
-import Image from 'next/image';
 import React from 'react';
 
 export default function NavbarAuth() {

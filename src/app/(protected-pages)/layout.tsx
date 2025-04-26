@@ -1,5 +1,7 @@
 'use client';
 import SideBar from '@/components/SideBar';
+import NavbarAuth from '@/components/NavbarAuth';
+import React from 'react';
 
 export default async function Layout({
   children,
@@ -14,7 +16,10 @@ export default async function Layout({
       <div
         className={`flex-1 transition-all duration-300 ease-in-out group-hover:ml-64`}
       >
-        {children}
+        <div className="flex">
+          <NavbarAuth />
+          {children}
+        </div>
       </div>
     </div>
   );
