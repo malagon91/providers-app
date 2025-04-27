@@ -38,6 +38,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
+    "supabase": "^2.22.6",
     "tailwindcss": "^4",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
