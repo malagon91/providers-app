@@ -1,12 +1,19 @@
 'use client';
 import React from 'react';
-import { Container, Box, Table } from '@radix-ui/themes';
+import { Container, Box, Table, Dialog, DropdownMenu } from '@radix-ui/themes';
 import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Category as CategoryType } from '@/types/database';
 import { CiCirclePlus } from 'react-icons/ci';
 import { ImCross } from 'react-icons/im';
+import { Button } from '@/components/ui/button';
+import {
+  MagnifyingGlassIcon,
+  MixerHorizontalIcon,
+  PlusIcon,
+} from '@radix-ui/react-icons';
+import NewProduct from '@/components/NewProduct';
 
 const Category = () => {
   const { data, isLoading } = useQuery({
@@ -32,6 +39,28 @@ const Category = () => {
   return (
     <Container size="4">
       <Box width="50%">
+        <div className="flex gap-3 mt-4">
+          <Dialog.Root>
+            <Dialog.Trigger>
+              <Button variant="secondary">
+                <PlusIcon /> Nuevo
+              </Button>
+            </Dialog.Trigger>
+            <NewProduct />
+          </Dialog.Root>
+
+          <div className="flex-1 relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MagnifyingGlassIcon />
+            </div>
+            <input
+              type="text"
+              placeholder={`Buscar categoria...`}
+              className="w-full pl-10 pr-3 py-2 border rounded-md"
+              value={''}
+            />
+          </div>
+        </div>
         <Table.Root variant="ghost">
           <Table.Header>
             <Table.Row>
