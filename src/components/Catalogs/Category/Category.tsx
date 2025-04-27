@@ -10,6 +10,7 @@ import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import NewCategory from '@/components/Catalogs/Category/Form';
 import { NewCategory as NewCategoryType } from '@/models/NewCategory';
+import Skeleton from '@/components/Common/Skeleton';
 
 const Category = () => {
   const queryClient = useQueryClient();
@@ -93,28 +94,34 @@ const Category = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {data?.map((item) => (
-              <Table.Row key={item.id}>
-                <Table.Cell>{item.id}</Table.Cell>
-                <Table.Cell>{item.name}</Table.Cell>
-                <Table.Cell>
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger>
-                      <Button variant="ghost" size="icon">
-                        <BsThreeDotsVertical />
-                      </Button>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content>
-                      <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
-                      <DropdownMenu.Separator />
-                      <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
-                        Delete
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+            {isLoading ? (
+              <Skeleton NumberOfRows={10} NumberOfColumns={4} />
+            ) : (
+              data?.map((item) => (
+                <Table.Row key={item.id}>
+                  <Table.Cell>{item.id}</Table.Cell>
+                  <Table.Cell>{item.name}</Table.Cell>
+                  <Table.Cell>
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger>
+                        <Button variant="ghost" size="icon">
+                          <BsThreeDotsVertical />
+                        </Button>
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Content>
+                        <DropdownMenu.Item shortcut="⌘ E">
+                          Edit
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator />
+                        <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
+                          Delete
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </Table.Cell>
+                </Table.Row>
+              ))
+            )}
           </Table.Body>
         </Table.Root>
       </Box>

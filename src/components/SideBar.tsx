@@ -13,7 +13,7 @@ const SideBar: FC = () => {
     <div
       className="fixed top-0 left-0 h-[calc(100vh-4rem)] bg-white flex flex-col border-r-4 border-gray-200
   transition-all duration-300 ease-in-out z-50
-  w-20 hover:w-64"
+  w-20 hover:w-70"
     >
       <nav className="flex-1 overflow-y-auto py-2">
         <Link
