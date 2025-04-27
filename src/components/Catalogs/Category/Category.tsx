@@ -1,6 +1,14 @@
 'use client';
-import React from 'react';
-import { Container, Box, Table, Dialog, DropdownMenu } from '@radix-ui/themes';
+import React, { useState } from 'react';
+import {
+  Container,
+  Box,
+  Table,
+  Dialog,
+  DropdownMenu,
+  AlertDialog,
+  Flex,
+} from '@radix-ui/themes';
 import { createClient } from '@/utils/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -13,6 +21,9 @@ import { NewCategory as NewCategoryType } from '@/models/NewCategory';
 import Skeleton from '@/components/Common/Skeleton';
 
 const Category = () => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>();
+  const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['category'],
@@ -45,12 +56,42 @@ const Category = () => {
     },
   });
 
+  const deleteCategory = useMutation({
+    mutationFn: async (id: number) => {
+      const supabase = createClient();
+      const { data: category, error } = await supabase
+        .from('category')
+        .delete()
+        .match({ id });
+      if (error) {
+        toast.error('Error al eliminar la categoría');
+        return;
+      }
+      return category;
+    },
+  });
+
   const handleAddNewCategory = async (name: string) => {
     await addNewCategory.mutate({
       name,
     });
     await queryClient.invalidateQueries({ queryKey: ['category'] });
     refetch();
+  };
+
+  const deleteCategoryFn = async () => {
+    if (!selectedCategory) return;
+    await deleteCategory.mutate(selectedCategory?.id);
+    toast.success(
+      `La categoría ${selectedCategory?.name} ha sido eliminada exitosamente`
+    );
+    await queryClient.invalidateQueries({ queryKey: ['category'] });
+    refetch();
+  };
+
+  const handleOnClickDeleteCategory = (item: CategoryType) => {
+    setSelectedCategory(item);
+    setIsAlertOpen(true);
   };
 
   return (
@@ -74,7 +115,8 @@ const Category = () => {
               type="text"
               placeholder={`Buscar categoria...`}
               className="w-full pl-10 pr-3 py-2 border rounded-md"
-              value={''}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
@@ -109,11 +151,16 @@ const Category = () => {
                       </DropdownMenu.Trigger>
                       <DropdownMenu.Content>
                         <DropdownMenu.Item shortcut="⌘ E">
-                          Edit
+                          Editar
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator />
-                        <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
-                          Delete
+
+                        <DropdownMenu.Item
+                          shortcut="⌘ ⌫"
+                          color="red"
+                          onClick={() => handleOnClickDeleteCategory(item)}
+                        >
+                          Eliminar
                         </DropdownMenu.Item>
                       </DropdownMenu.Content>
                     </DropdownMenu.Root>
@@ -124,6 +171,34 @@ const Category = () => {
           </Table.Body>
         </Table.Root>
       </Box>
+      {isAlertOpen && (
+        <AlertDialog.Root open={isAlertOpen}>
+          <AlertDialog.Content className="fixed top-[150px] left-[50vh] transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg max-w-[450px] w-full">
+            <AlertDialog.Title className="text-lg font-bold">
+              Are you sure to delete this category?
+            </AlertDialog.Title>
+            <AlertDialog.Description className="mt-2 text-gray-600">
+              Are you sure? All the products associated with this category will
+              be deleted.
+            </AlertDialog.Description>
+            <Flex gap="3" mt="4" justify="end">
+              <AlertDialog.Cancel>
+                <Button variant="ghost" onClick={() => setIsAlertOpen(false)}>
+                  Cancel
+                </Button>
+              </AlertDialog.Cancel>
+              <AlertDialog.Action
+                onClick={() => {
+                  deleteCategoryFn();
+                  setIsAlertOpen(false);
+                }}
+              >
+                <Button variant="destructive">Delete category</Button>
+              </AlertDialog.Action>
+            </Flex>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+      )}
     </Container>
   );
 };
