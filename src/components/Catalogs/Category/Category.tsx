@@ -95,7 +95,7 @@ const Category = () => {
           </Table.Header>
           <Table.Body>
             {isLoading ? (
-              <Skeleton NumberOfRows={10} NumberOfColumns={4} />
+              <Skeleton NumberOfRows={10} NumberOfColumns={3} />
             ) : (
               data?.map((item) => (
                 <Table.Row key={item.id}>
