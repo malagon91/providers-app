@@ -9,11 +9,6 @@ function withAuth(Component: any) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase
-      .from('category') // O 'category' si está en minúsculas
-      .select('*');
-    console.log(data, error, 'data error');
-
     if (!user) {
       return redirect('/sign-in');
     }

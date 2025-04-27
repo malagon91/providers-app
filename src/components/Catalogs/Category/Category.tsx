@@ -9,10 +9,12 @@ import {
   AlertDialog,
   Flex,
 } from '@radix-ui/themes';
+import { User } from '@supabase/supabase-js';
+import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { Category as CategoryType } from '@/types/database';
+import { Category as CategoryType, UpdateCategoryType } from '@/types/database';
 import { Button } from '@/components/ui/button';
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -39,6 +41,21 @@ const Category = () => {
         return;
       }
       return data ?? [];
+    },
+  });
+
+  const { data: userData, isLoading: isLoadingUser } = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        toast.error('Error al obtener la información');
+        redirect('/sign-in');
+        return;
+      }
+      return data ?? ({} as User);
     },
   });
 
@@ -71,6 +88,21 @@ const Category = () => {
     },
   });
 
+  const updateCategory = useMutation({
+    mutationFn: async (data: UpdateCategoryType) => {
+      const supabase = createClient();
+      const { data: category, error } = await supabase
+        .from('category')
+        .update(data)
+        .match({ id: data.id });
+      if (error) {
+        toast.error('Error al actualizar la categoría');
+        return;
+      }
+      return category;
+    },
+  });
+
   const handleAddNewCategory = async (name: string) => {
     await addNewCategory.mutate({
       name,
@@ -87,11 +119,17 @@ const Category = () => {
     );
     await queryClient.invalidateQueries({ queryKey: ['category'] });
     refetch();
+    setIsAlertOpen(false);
+    setSelectedCategory(undefined);
   };
 
   const handleOnClickDeleteCategory = (item: CategoryType) => {
     setSelectedCategory(item);
     setIsAlertOpen(true);
+  };
+
+  const handleOnClickUpdateCategory = (item: CategoryType) => {
+    setSelectedCategory(item);
   };
 
   return (

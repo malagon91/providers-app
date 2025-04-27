@@ -6,7 +6,6 @@ interface Props {
 }
 
 const Dashboard: FC<Props> = ({ user }) => {
-  console.log(user, 'user');
   return (
     <Box asChild py="3" className="">
       <Container>
