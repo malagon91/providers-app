@@ -55,7 +55,9 @@ const Category = () => {
         redirect('/sign-in');
         return;
       }
-      return data ?? ({} as User);
+      const { user } = data;
+
+      return user ?? null;
     },
   });
 
@@ -91,7 +93,7 @@ const Category = () => {
   const updateCategory = useMutation({
     mutationFn: async (data: UpdateCategoryType) => {
       const supabase = createClient();
-      const { data: category, error } = await supabase
+      const { error } = await supabase
         .from('category')
         .update(data)
         .match({ id: data.id });
@@ -99,13 +101,14 @@ const Category = () => {
         toast.error('Error al actualizar la categoría');
         return;
       }
-      return category;
+      return;
     },
   });
 
   const handleAddNewCategory = async (name: string) => {
     await addNewCategory.mutate({
       name,
+      created_by: userData?.id ?? '',
     });
     await queryClient.invalidateQueries({ queryKey: ['category'] });
     refetch();
