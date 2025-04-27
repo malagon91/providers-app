@@ -5,14 +5,9 @@ import { createClient } from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Category as CategoryType } from '@/types/database';
-import { CiCirclePlus } from 'react-icons/ci';
-import { ImCross } from 'react-icons/im';
 import { Button } from '@/components/ui/button';
-import {
-  MagnifyingGlassIcon,
-  MixerHorizontalIcon,
-  PlusIcon,
-} from '@radix-ui/react-icons';
+import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import NewProduct from '@/components/NewProduct';
 
 const Category = () => {
@@ -61,7 +56,7 @@ const Category = () => {
             />
           </div>
         </div>
-        <Table.Root variant="ghost">
+        <Table.Root variant="ghost" className="mt-4">
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell width="100px" minWidth="100px">
@@ -81,12 +76,20 @@ const Category = () => {
                 <Table.Cell>{item.id}</Table.Cell>
                 <Table.Cell>{item.name}</Table.Cell>
                 <Table.Cell>
-                  <button className="p-1 rounded-md bg-gray-100 hover:bg-gray-200">
-                    <CiCirclePlus className="w-4 h-4" />
-                  </button>
-                  <button className="p-1 rounded-md bg-gray-100 hover:bg-gray-200">
-                    <ImCross className="w-4 h-4" />
-                  </button>
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                      <Button variant="ghost" size="icon">
+                        <BsThreeDotsVertical />
+                      </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content>
+                      <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
+                      <DropdownMenu.Separator />
+                      <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
+                        Delete
+                      </DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
                 </Table.Cell>
               </Table.Row>
             ))}
