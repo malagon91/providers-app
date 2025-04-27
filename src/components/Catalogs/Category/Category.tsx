@@ -18,7 +18,6 @@ const Category = () => {
     queryKey: ['category'],
     queryFn: async () => {
       const supabase = createClient();
-
       const { data, error } = (await supabase.from('category').select('*')) as {
         data: CategoryType[] | null;
         error: any;

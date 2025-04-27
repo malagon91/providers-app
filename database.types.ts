@@ -30,6 +30,33 @@ export type Database = {
         }
         Relationships: []
       }
+      commodity: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string
+          description: string | null
+          id: number
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: number
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
