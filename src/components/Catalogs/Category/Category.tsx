@@ -2,16 +2,18 @@
 import React from 'react';
 import { Container, Box, Table, Dialog, DropdownMenu } from '@radix-ui/themes';
 import { createClient } from '@/utils/supabase/client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { Category as CategoryType } from '@/types/database';
 import { Button } from '@/components/ui/button';
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import NewProduct from '@/components/NewProduct';
+import NewCategory from '@/components/Catalogs/Category/Form';
+import { NewCategory as NewCategoryType } from '@/models/NewCategory';
 
 const Category = () => {
-  const { data, isLoading } = useQuery({
+  const queryClient = useQueryClient();
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['category'],
     queryFn: async () => {
       const supabase = createClient();
@@ -28,8 +30,28 @@ const Category = () => {
       return data ?? [];
     },
   });
-  console.log(data, 'data');
-  console.log(isLoading, 'isLoading');
+
+  const addNewCategory = useMutation({
+    mutationFn: async (data: NewCategoryType) => {
+      const supabase = createClient();
+      const { data: category, error } = await supabase
+        .from('category')
+        .insert(data);
+      if (error) {
+        toast.error('Error al agregar la categoría');
+        return;
+      }
+      return category;
+    },
+  });
+
+  const handleAddNewCategory = async (name: string) => {
+    await addNewCategory.mutate({
+      name,
+    });
+    await queryClient.invalidateQueries({ queryKey: ['category'] });
+    refetch();
+  };
 
   return (
     <Container size="4">
@@ -41,7 +63,7 @@ const Category = () => {
                 <PlusIcon /> Nuevo
               </Button>
             </Dialog.Trigger>
-            <NewProduct />
+            <NewCategory onClick={handleAddNewCategory} />
           </Dialog.Root>
 
           <div className="flex-1 relative">
