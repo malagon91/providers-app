@@ -115,6 +115,8 @@ const Category = () => {
     });
     await queryClient.invalidateQueries({ queryKey: ['category'] });
     refetch();
+    setIsFormOpen(false);
+    setSelectedCategory(undefined);
   };
 
   const deleteCategoryFn = async () => {
