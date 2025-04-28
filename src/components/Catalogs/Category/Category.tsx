@@ -31,7 +31,10 @@ const Category = () => {
     queryKey: ['category'],
     queryFn: async () => {
       const supabase = createClient();
-      const { data, error } = (await supabase.from('category').select('*')) as {
+      const { data, error } = (await supabase
+        .from('category')
+        .select('*')
+        .order('id', { ascending: true })) as {
         data: CategoryType[] | null;
         error: any;
       };
@@ -105,7 +108,7 @@ const Category = () => {
     },
   });
 
-  const handleAddNewCategory = async (name: string) => {
+  const addNewCategoryFn = async (name: string) => {
     await addNewCategory.mutate({
       name,
       created_by: userData?.id ?? '',
@@ -126,6 +129,19 @@ const Category = () => {
     setSelectedCategory(undefined);
   };
 
+  const updateCategoryFn = async (name: string) => {
+    if (!selectedCategory) return;
+    await updateCategory.mutate({
+      id: selectedCategory?.id,
+      name,
+    });
+    toast.success(`La categoría ${name} ha sido actualizada exitosamente`);
+    await queryClient.invalidateQueries({ queryKey: ['category'] });
+    refetch();
+    setIsFormOpen(false);
+    setSelectedCategory(undefined);
+  };
+
   const handleOnClickDeleteCategory = (item: CategoryType) => {
     setSelectedCategory(item);
     setIsAlertOpen(true);
@@ -133,6 +149,7 @@ const Category = () => {
 
   const handleOnClickUpdateCategory = (item: CategoryType) => {
     setSelectedCategory(item);
+    setIsFormOpen(true);
   };
 
   const handleOnClickForm = () => {
@@ -141,6 +158,14 @@ const Category = () => {
 
   const handleCloseForm = () => {
     setIsFormOpen(false);
+  };
+
+  const handleOnClick = (name: string) => {
+    if (selectedCategory?.id) {
+      updateCategoryFn(name);
+    } else {
+      addNewCategoryFn(name);
+    }
   };
 
   return (
@@ -193,7 +218,10 @@ const Category = () => {
                         </Button>
                       </DropdownMenu.Trigger>
                       <DropdownMenu.Content>
-                        <DropdownMenu.Item shortcut="⌘ E">
+                        <DropdownMenu.Item
+                          shortcut="⌘ E"
+                          onClick={() => handleOnClickUpdateCategory(item)}
+                        >
                           Editar
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator />
@@ -242,8 +270,9 @@ const Category = () => {
       </AlertDialog.Root>
       <Dialog.Root open={isFormOpen}>
         <NewCategory
-          onClick={handleAddNewCategory}
+          onClick={handleOnClick}
           closeForm={handleCloseForm}
+          item={selectedCategory}
         />
       </Dialog.Root>
     </Container>

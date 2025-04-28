@@ -1,18 +1,26 @@
 'use client';
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Dialog, Flex, Text } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Category as CategoryType } from '@/types/database';
 interface Props {
   onClick: (name: string) => void;
   closeForm: () => void;
+  item?: CategoryType | null;
 }
 
-const Form: FC<Props> = ({ onClick, closeForm }) => {
+const Form: FC<Props> = ({ onClick, closeForm, item }) => {
   const [name, setName] = useState('');
   const clearForm = () => {
     setName('');
   };
+
+  useEffect(() => {
+    if (item) {
+      if (item.id) setName(item?.name ?? '');
+    }
+  }, [item]);
 
   return (
     <Dialog.Content maxWidth="450px" onCloseAutoFocus={clearForm}>
