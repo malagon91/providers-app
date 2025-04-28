@@ -2,7 +2,7 @@
 import withAuth from '@/HOC/WithAuth';
 import { Flex } from '@radix-ui/themes';
 import React from 'react';
-import NewProviders from '@/components/NewProviders';
+import NewProviders from '@/components/NewProviders/NewProviders';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@radix-ui/themes';
 

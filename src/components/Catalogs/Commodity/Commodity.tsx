@@ -136,7 +136,7 @@ const Commodity = () => {
 
   return (
     <Container size="4">
-      <Box width="50%">
+      <Box width="w-full">
         <div className="flex gap-3 mt-4">
           <Dialog.Root>
             <Dialog.Trigger>
@@ -186,6 +186,8 @@ const Commodity = () => {
           isOpen={!!deletingCommodity}
           onOpenChange={(open) => !open && setDeletingCommodity(null)}
           onConfirm={handleConfirmDelete}
+          commodityName={deletingCommodity?.name} 
+
         />
 
         <Table.Root variant="ghost" className="mt-4">
@@ -199,6 +201,9 @@ const Commodity = () => {
               </Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width="300px" minWidth="300px">
                 Nombre
+              </Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell width="300px" minWidth="300px">
+                Descripcion
               </Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell width="80px" minWidth="80px">
                 Acciones
@@ -220,6 +225,7 @@ const Commodity = () => {
                   <Table.Cell>{item.id}</Table.Cell>
                   <Table.Cell>{item.code}</Table.Cell>
                   <Table.Cell>{item.name}</Table.Cell>
+                  <Table.Cell>{item.description}</Table.Cell>
                   <Table.Cell>
                     <DropdownMenu.Root>
                       <DropdownMenu.Trigger>

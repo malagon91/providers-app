@@ -1,83 +1,86 @@
 'use client';
 import React from 'react';
-import { Dialog, Flex, Text, TextField } from '@radix-ui/themes';
+import { Flex, Text, Select } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
-import { Select, Tabs } from '@radix-ui/themes';
 import { Button } from '@/components/ui/button';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
-interface Props {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+interface Step1Props {
+  proyect: string;
+  setProyect: (value: string) => void;
+  status: string;
+  setStatus: (value: string) => void;
+  commodity: string;
+  setCommodity: (value: string) => void;
+  onNext: () => void;
+  onCancel: () => void;
 }
 
 const statusOptions = ['En Progreso', 'En Hold', 'Activo', 'Inactivo'];
-
 const supplierOptions = ['Proyecto A', 'Proyecto B', 'Proyecto C'];
-
 const commodityOptions = ['Componente X', 'Componente Y', 'Componente Z'];
 
-const NewProviders = () => {
-  const [status, setStatus] = React.useState('');
-  const [proyect, setProyect] = React.useState('');
-  const [commodity, setCommodity] = React.useState('');
+const inputStyle = {
+  display: 'flex',
+  height: '2.5rem',
+  width: '100%',
+  borderRadius: '0.375rem',
+  borderWidth: '1px',
+  borderColor: 'hsl(var(--input))',
+  backgroundColor: 'hsl(var(--background))',
+  paddingLeft: '0.75rem',
+  paddingRight: '0.75rem',
+  paddingTop: '0.5rem',
+  paddingBottom: '0.5rem',
+  fontSize: '0.875rem',
+  lineHeight: '1.5rem',
+  outline: 'none',
+  ringOffsetWidth: '2px',
+  cursor: 'default',
+  opacity: '1',
+};
 
-  const inputStyle = {
-    display: 'flex',
-    height: '2.5rem',
-    width: '100%',
-    borderRadius: '0.375rem',
-    borderWidth: '1px',
-    borderColor: 'hsl(var(--input))',
-    backgroundColor: 'hsl(var(--background))',
-    paddingLeft: '0.75rem',
-    paddingRight: '0.75rem',
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
-    fontSize: '0.875rem',
-    lineHeight: '1.5rem',
-    outline: 'none',
-    ringOffsetWidth: '2px',
-    cursor: 'default',
-    opacity: '1',
-  };
-
+export const Step1 = ({
+  proyect,
+  setProyect,
+  status,
+  setStatus,
+  commodity,
+  setCommodity,
+  onNext,
+  onCancel
+}: Step1Props) => {
   return (
-    <Dialog.Content maxWidth="450px">
-      <Dialog.Title>
-        <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
-      </Dialog.Title>
-      
+    <>
       <Flex direction="column" gap="3">
         <label>
           <Text as="div" size="2" mb="1" weight="bold">
             Nombre
           </Text>
-          <Input placeholder="Nombre del proveedor."></Input>
+          <Input placeholder="Nombre del proveedor." />
         </label>
         <label>
           <Text as="div" size="2" mb="1" weight="bold">
             Direccion
           </Text>
-          <Input placeholder="Calle y numero"></Input>
+          <Input placeholder="Calle y numero" />
         </label>
         <label>
           <Text as="div" size="2" mb="1" weight="bold">
             Ciudad
           </Text>
-          <Input placeholder="Ciudad"></Input>
+          <Input placeholder="Ciudad" />
         </label>
         <label>
           <Text as="div" size="2" mb="1" weight="bold">
             Estado
           </Text>
-          <Input placeholder="Estado"></Input>
+          <Input placeholder="Estado" />
         </label>
         <label>
           <Text as="div" size="2" mb="1" weight="bold">
             Pais
           </Text>
-          <Input placeholder="Pais"></Input>
+          <Input placeholder="Pais" />
         </label>
 
         <label>
@@ -130,17 +133,13 @@ const NewProviders = () => {
       </Flex>
 
       <Flex gap="3" mt="4" justify="end">
-        <Dialog.Close>
-          <Button variant="secondary" color="gray">
-            Cancelar
-          </Button>
-        </Dialog.Close>
-        <Dialog.Close>
-          <Button variant="default">Siguiente</Button>
-        </Dialog.Close>
+        <Button variant="ghost" color="gray" onClick={onCancel}>
+          Cancelar
+        </Button>
+        <Button variant="link" onClick={onNext}>
+          Siguiente
+        </Button>
       </Flex>
-    </Dialog.Content>
+    </>
   );
 };
-
-export default NewProviders;

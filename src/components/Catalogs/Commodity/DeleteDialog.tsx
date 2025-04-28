@@ -9,9 +9,10 @@ interface DeleteDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => Promise<void>;
+  commodityName?: string; 
 }
 
-export const DeleteDialog = ({ isOpen, onOpenChange, onConfirm }: DeleteDialogProps) => {
+export const DeleteDialog = ({ isOpen, onOpenChange, onConfirm , commodityName}: DeleteDialogProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleConfirm = async () => {
@@ -28,7 +29,7 @@ export const DeleteDialog = ({ isOpen, onOpenChange, onConfirm }: DeleteDialogPr
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Dialog.Title>Eliminar commodity</Dialog.Title>
         <Dialog.Description size="2" mb="4">
-          ¿Estás seguro de que deseas eliminar este commodity? Esta acción no se puede deshacer.
+        ¿Estás seguro de que deseas eliminar el commodity {commodityName ? `"${commodityName}"` : ''}? Esta acción no se puede deshacer.
         </Dialog.Description>
 
         <Flex gap="3" mt="4" justify="end">

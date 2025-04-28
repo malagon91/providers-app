@@ -35,7 +35,7 @@ export default function NavbarAuth() {
                 {selectedMenuItem.name || 'Digital Product'}
               </Heading>
             </Box>
-            <Flex z-1900 gap="3">
+            <Flex gap="3">
               <Box maxWidth="240px">
                 <Card variant="ghost">
                   <Flex gap="3" align="center">
@@ -43,7 +43,7 @@ export default function NavbarAuth() {
   <DropdownMenu.Trigger asChild>
     <Box maxWidth="240px" style={{ cursor: 'pointer' }}>
       <Card variant='ghost'>
-        <Flex z-1900 gap="3" align="center">
+        <Flex  gap="3" align="center">
           <Avatar
             size="3"
             src={images.avatar.src}
