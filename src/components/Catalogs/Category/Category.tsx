@@ -9,7 +9,6 @@ import {
   AlertDialog,
   Flex,
 } from '@radix-ui/themes';
-import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -23,6 +22,7 @@ import { NewCategory as NewCategoryType } from '@/models/NewCategory';
 import Skeleton from '@/components/Common/Skeleton';
 
 const Category = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>();
   const [searchTerm, setSearchTerm] = useState('');
@@ -135,19 +135,21 @@ const Category = () => {
     setSelectedCategory(item);
   };
 
+  const handleOnClickForm = () => {
+    setIsFormOpen(true);
+  };
+
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+  };
+
   return (
     <Container size="4">
       <Box width="50%">
         <div className="flex gap-3 mt-4">
-          <Dialog.Root>
-            <Dialog.Trigger>
-              <Button variant="secondary">
-                <PlusIcon /> Nuevo
-              </Button>
-            </Dialog.Trigger>
-            <NewCategory onClick={handleAddNewCategory} />
-          </Dialog.Root>
-
+          <Button variant="secondary" onClick={handleOnClickForm}>
+            <PlusIcon /> Nuevo
+          </Button>
           <div className="flex-1 relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <MagnifyingGlassIcon />
@@ -212,34 +214,38 @@ const Category = () => {
           </Table.Body>
         </Table.Root>
       </Box>
-      {isAlertOpen && (
-        <AlertDialog.Root open={isAlertOpen}>
-          <AlertDialog.Content className="fixed top-[150px] left-[50vh] transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg max-w-[450px] w-full">
-            <AlertDialog.Title className="text-lg font-bold">
-              Are you sure to delete this category?
-            </AlertDialog.Title>
-            <AlertDialog.Description className="mt-2 text-gray-600">
-              Are you sure? All the products associated with this category will
-              be deleted.
-            </AlertDialog.Description>
-            <Flex gap="3" mt="4" justify="end">
-              <AlertDialog.Cancel>
-                <Button variant="ghost" onClick={() => setIsAlertOpen(false)}>
-                  Cancel
-                </Button>
-              </AlertDialog.Cancel>
-              <AlertDialog.Action
-                onClick={() => {
-                  deleteCategoryFn();
-                  setIsAlertOpen(false);
-                }}
-              >
-                <Button variant="destructive">Delete category</Button>
-              </AlertDialog.Action>
-            </Flex>
-          </AlertDialog.Content>
-        </AlertDialog.Root>
-      )}
+      <AlertDialog.Root open={isAlertOpen}>
+        <AlertDialog.Content className="fixed top-[150px] left-[50vh] transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg max-w-[450px] w-full">
+          <AlertDialog.Title className="text-lg font-bold">
+            Are you sure to delete this category?
+          </AlertDialog.Title>
+          <AlertDialog.Description className="mt-2 text-gray-600">
+            Are you sure? All the products associated with this category will be
+            deleted.
+          </AlertDialog.Description>
+          <Flex gap="3" mt="4" justify="end">
+            <AlertDialog.Cancel>
+              <Button variant="ghost" onClick={() => setIsAlertOpen(false)}>
+                Cancel
+              </Button>
+            </AlertDialog.Cancel>
+            <AlertDialog.Action
+              onClick={() => {
+                deleteCategoryFn();
+                setIsAlertOpen(false);
+              }}
+            >
+              <Button variant="destructive">Delete category</Button>
+            </AlertDialog.Action>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+      <Dialog.Root open={isFormOpen}>
+        <NewCategory
+          onClick={handleAddNewCategory}
+          closeForm={handleCloseForm}
+        />
+      </Dialog.Root>
     </Container>
   );
 };

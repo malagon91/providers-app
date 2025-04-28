@@ -5,9 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 interface Props {
   onClick: (name: string) => void;
+  closeForm: () => void;
 }
 
-const Form: FC<Props> = ({ onClick }) => {
+const Form: FC<Props> = ({ onClick, closeForm }) => {
   const [name, setName] = useState('');
   const clearForm = () => {
     setName('');
@@ -35,7 +36,7 @@ const Form: FC<Props> = ({ onClick }) => {
 
       <Flex gap="3" mt="4" justify="end">
         <Dialog.Close>
-          <Button variant="secondary" color="gray">
+          <Button variant="secondary" color="gray" onClick={closeForm}>
             Cancelar
           </Button>
         </Dialog.Close>
