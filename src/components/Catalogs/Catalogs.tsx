@@ -434,7 +434,7 @@ function Catalogs() {
           </Tabs.Content>
 
           <Tabs.Content value={TabType.COMMODITIES}>
-          <Commodity />
+            <Commodity />
           </Tabs.Content>
 
           <Tabs.Content value={TabType.CATEGORY}>

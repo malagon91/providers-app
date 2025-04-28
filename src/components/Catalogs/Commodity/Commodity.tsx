@@ -14,8 +14,10 @@ import Skeleton from '@/components/Common/Skeleton';
 import { DeleteDialog } from '@/components/Catalogs/Commodity/DeleteDialog';
 
 const Commodity = () => {
-  const [editingCommodity, setEditingCommodity] = useState<CommodityType | null>(null);
-  const [deletingCommodity, setDeletingCommodity] = useState<CommodityType | null>(null);
+  const [editingCommodity, setEditingCommodity] =
+    useState<CommodityType | null>(null);
+  const [deletingCommodity, setDeletingCommodity] =
+    useState<CommodityType | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const queryClient = useQueryClient();
 
@@ -23,7 +25,9 @@ const Commodity = () => {
     queryKey: ['commodity'],
     queryFn: async () => {
       const supabase = createClient();
-      const { data, error } = (await supabase.from('commodity').select('*')) as {
+      const { data, error } = (await supabase
+        .from('commodity')
+        .select('*')) as {
         data: CommodityType[] | null;
         error: any;
       };
@@ -38,10 +42,14 @@ const Commodity = () => {
 
   const filteredCommodities = useMemo(() => {
     if (!data) return [];
-    return data.filter(commodity => 
-      commodity.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      commodity.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (commodity.description && commodity.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    return data.filter(
+      (commodity) =>
+        commodity.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        commodity.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (commodity.description &&
+          commodity.description
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()))
     );
   }, [data, searchTerm]);
 
@@ -67,7 +75,7 @@ const Commodity = () => {
         .update({
           name: data.name,
           code: data.code,
-          description: data.description
+          description: data.description,
         })
         .eq('id', data.id);
 
@@ -82,10 +90,7 @@ const Commodity = () => {
   const deleteCommodity = useMutation({
     mutationFn: async (id: number) => {
       const supabase = createClient();
-      const { error } = await supabase
-        .from('commodity')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('commodity').delete().eq('id', id);
 
       if (error) {
         toast.error('Error al eliminar el commodity');
@@ -99,15 +104,21 @@ const Commodity = () => {
     },
   });
 
-  const handleAddNewCommodity = async (name: string, code: string, description?: string) => {
+  const handleAddNewCommodity = async (
+    name: string,
+    code: string,
+    description?: string
+  ) => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     await addNewCommodity.mutateAsync({
       name,
       code,
       description: description || null,
-      created_by: user?.id || ''
+      created_by: user?.id || '',
     });
     await queryClient.invalidateQueries({ queryKey: ['commodity'] });
     refetch();
@@ -144,24 +155,26 @@ const Commodity = () => {
                 <PlusIcon /> Nuevo
               </Button>
             </Dialog.Trigger>
-            <NewCommodity 
-              onClick={handleAddNewCommodity} 
-              initialData={null} 
-            />
+            <NewCommodity onClick={handleAddNewCommodity} initialData={null} />
           </Dialog.Root>
 
-          <Dialog.Root open={!!editingCommodity} onOpenChange={(open) => !open && setEditingCommodity(null)}>
+          <Dialog.Root
+            open={!!editingCommodity}
+            onOpenChange={(open) => !open && setEditingCommodity(null)}
+          >
             <Dialog.Trigger>
               <div style={{ display: 'none' }} />
             </Dialog.Trigger>
             {editingCommodity && (
-              <NewCommodity 
-                onClick={(name, code, description) => handleEditCommodity({
-                  ...editingCommodity,
-                  name,
-                  code,
-                  description: description || null
-                })} 
+              <NewCommodity
+                onClick={(name, code, description) =>
+                  handleEditCommodity({
+                    ...editingCommodity,
+                    name,
+                    code,
+                    description: description || null,
+                  })
+                }
                 initialData={editingCommodity}
                 isEditing
               />
@@ -186,8 +199,7 @@ const Commodity = () => {
           isOpen={!!deletingCommodity}
           onOpenChange={(open) => !open && setDeletingCommodity(null)}
           onConfirm={handleConfirmDelete}
-          commodityName={deletingCommodity?.name} 
-
+          commodityName={deletingCommodity?.name}
         />
 
         <Table.Root variant="ghost" className="mt-4">
@@ -234,15 +246,15 @@ const Commodity = () => {
                         </Button>
                       </DropdownMenu.Trigger>
                       <DropdownMenu.Content>
-                        <DropdownMenu.Item 
+                        <DropdownMenu.Item
                           shortcut="⌘ E"
                           onClick={() => handleEditClick(item)}
                         >
                           Editar
                         </DropdownMenu.Item>
                         <DropdownMenu.Separator />
-                        <DropdownMenu.Item 
-                          shortcut="⌘ ⌫" 
+                        <DropdownMenu.Item
+                          shortcut="⌘ ⌫"
                           color="red"
                           onClick={() => handleDeleteClick(item)}
                         >

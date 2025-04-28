@@ -47,7 +47,7 @@ const NewProviders = () => {
       <Dialog.Title>
         <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
       </Dialog.Title>
-      
+
       <Flex direction="column" gap="3">
         <label>
           <Text as="div" size="2" mb="1" weight="bold">

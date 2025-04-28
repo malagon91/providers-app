@@ -38,7 +38,10 @@ const Form: FC<Props> = ({ onClick, initialData, isEditing = false }) => {
   };
 
   return (
-    <Dialog.Content maxWidth="450px" onCloseAutoFocus={isEditing ? undefined : clearForm}>
+    <Dialog.Content
+      maxWidth="450px"
+      onCloseAutoFocus={isEditing ? undefined : clearForm}
+    >
       <Dialog.Title>
         <Text as="div" size="2" mb="1" weight="bold">
           {isEditing ? 'Editar Commodity' : 'Agregar nuevo Commodity'}

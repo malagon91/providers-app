@@ -47,7 +47,7 @@ export const Step1 = ({
   commodity,
   setCommodity,
   onNext,
-  onCancel
+  onCancel,
 }: Step1Props) => {
   return (
     <>
