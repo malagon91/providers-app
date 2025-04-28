@@ -10,6 +10,7 @@ import {
 } from '@radix-ui/themes';
 import { PlusIcon, Cross2Icon } from '@radix-ui/react-icons';
 import Category from './Category/Category';
+import Commodity from './Commodity/Commodity';
 
 type Product = {
   id: number;
@@ -433,8 +434,7 @@ function Catalogs() {
           </Tabs.Content>
 
           <Tabs.Content value={TabType.COMMODITIES}>
-            {renderTable(currentItemsToShow)}
-            {renderPagination()}
+          <Commodity />
           </Tabs.Content>
 
           <Tabs.Content value={TabType.CATEGORY}>
