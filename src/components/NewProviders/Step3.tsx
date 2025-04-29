@@ -1,11 +1,13 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { Flex, Text, Badge } from '@radix-ui/themes';
+import React, { useState } from 'react';
+import { Flex, Text, Badge, Grid, Box } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
+dayjs.extend(customParseFormat);
 dayjs.locale('es');
 
 interface Certification {
@@ -14,6 +16,7 @@ interface Certification {
   fileName: string;
   expirationDate: string;
   isFileUploaded: boolean;
+  isPredefined: boolean;
 }
 
 interface Step3Props {
@@ -22,13 +25,15 @@ interface Step3Props {
 }
 
 export const Step3 = ({ onPrevious, onNext }: Step3Props) => {
-  const [certifications, setCertifications] = useState<Certification[]>([
+  
+  const initialCertifications: Certification[] = [
     {
       id: '1',
       name: 'Certificado IATF16949',
-      fileName: 'TotalPlay.png',
-      expirationDate: '25/09/2025',
-      isFileUploaded: true,
+      fileName: '',
+      expirationDate: '',
+      isFileUploaded: false,
+      isPredefined: true,
     },
     {
       id: '2',
@@ -36,6 +41,7 @@ export const Step3 = ({ onPrevious, onNext }: Step3Props) => {
       fileName: '',
       expirationDate: '',
       isFileUploaded: false,
+      isPredefined: true,
     },
     {
       id: '3',
@@ -43,26 +49,16 @@ export const Step3 = ({ onPrevious, onNext }: Step3Props) => {
       fileName: '',
       expirationDate: '',
       isFileUploaded: false,
+      isPredefined: true,
     },
-  ]);
+  ];
 
+  const [certifications, setCertifications] = useState<Certification[]>(
+    initialCertifications
+  );
   const [dateErrors, setDateErrors] = useState<{ [key: string]: string }>({});
-
-  useEffect(() => {
-    certifications.forEach((cert) => {
-      if (cert.expirationDate) {
-        const expDate = dayjs(cert.expirationDate, 'YYYY-MM-DD', true);
-
-        const today = dayjs();
-        const diffDays = expDate.diff(today, 'day');
-
-        console.log('Fecha parseada:', expDate.format());
-        console.log('Diferencia en días:', diffDays);
-        console.log('Estado calculado:', getStatusColor(cert.expirationDate));
-        console.log('---');
-      }
-    });
-  }, [certifications]);
+  const [newCertName, setNewCertName] = useState('');
+  const [showCertInput, setShowCertInput] = useState(false);
 
   const handleFileChange = (
     id: string,
@@ -94,130 +90,247 @@ export const Step3 = ({ onPrevious, onNext }: Step3Props) => {
       } else {
         setDateErrors((prev) => ({
           ...prev,
-          [id]: 'Formato debe ser dd/mm/aaaa',
+          [id]: 'Formato debe ser AAAA-MM-DD',
         }));
       }
     }
   };
 
-  const handleSave = (id: string) => {
-    const cert = certifications.find((c) => c.id === id);
-    if (!cert || !cert.expirationDate || dateErrors[id]) {
-      alert('Ingrese una fecha válida');
+  const addCustomCertification = () => {
+    if (certifications.length >= 5) return;
+    if (!newCertName.trim()) {
+      alert('Por favor ingresa un nombre para el certificado');
       return;
     }
-    console.log(`Guardando ${cert.name}:`, cert);
+
+    const newCert: Certification = {
+      id: Date.now().toString(),
+      name: newCertName.trim(),
+      fileName: '',
+      expirationDate: '',
+      isFileUploaded: false,
+      isPredefined: false,
+    };
+
+    setCertifications([...certifications, newCert]);
+    setNewCertName('');
+    setShowCertInput(false);
+  };
+
+  const removeCertification = (id: string) => {
+    setCertifications((certs) => certs.filter((cert) => cert.id !== id));
   };
 
   const getStatusColor = (expirationDate: string) => {
     if (!expirationDate) return 'gray';
 
     try {
-      const expDate = dayjs(expirationDate, 'YYY-MM-DD', true);
+      const expDate = dayjs(expirationDate, 'YYYY-MM-DD');
       const today = dayjs();
       const diffDays = expDate.diff(today, 'day');
-
-      console.log(
-        `[Debug] Fecha: ${expirationDate}, Días restantes: ${diffDays}`
-      );
-
-      if (isNaN(diffDays)) return 'gray';
 
       if (diffDays > 30) return 'green';
       if (diffDays >= 0) return 'yellow';
       return 'red';
-    } catch (error) {
-      console.error('Error al parsear fecha:', error);
+    } catch {
       return 'gray';
     }
   };
 
   return (
     <>
-      <Flex direction="column" gap="4">
-        <Text size="4" weight="bold">
-          Documentación
-        </Text>
+      <Grid columns="2" gap="3">
+        
+        <Flex direction="column" gap="3">
+          {certifications
+            .filter((_, index) => index % 2 === 0)
+            .map((cert) => (
+              <Box key={cert.id} className="border-b pb-4">
+                <Text as="div" size="2" mb="1" weight="bold">
+                  {cert.name}
+                </Text>
 
-        <Text size="1" color="gray">
-          Fecha actual: {dayjs().format('YYY-MM-DD')}
-        </Text>
+                <Flex direction="column" gap="3">
+                  <Flex align="center" gap="2">
+                    <Text size="2">Expiración:</Text>
+                    {cert.isFileUploaded ? (
+                      <Input
+                        type="date"
+                        value={cert.expirationDate}
+                        onChange={(e) => handleDateChange(cert.id, e.target.value)}
+                        className="w-full"
+                      />
+                    ) : (
+                      <Text size="2">--/--/----</Text>
+                    )}
 
-        {certifications.map((cert) => (
-          <Flex key={cert.id} direction="column" gap="2">
-            <Text as="div" size="2" weight="bold">
-              {cert.name}
-            </Text>
+                    {cert.expirationDate && (
+                      <Badge color={getStatusColor(cert.expirationDate)}>
+                        {getStatusColor(cert.expirationDate) === 'green'
+                          ? 'VIGENTE'
+                          : getStatusColor(cert.expirationDate) === 'yellow'
+                            ? 'POR VENCER'
+                            : 'VENCIDO'}
+                      </Badge>
+                    )}
+                  </Flex>
 
-            <Flex align="center" gap="2">
-              <Text size="2">Expiración:</Text>
-              {cert.isFileUploaded ? (
-                <Input
-                  type="text"
-                  placeholder="aaaa-mm-dd"
-                  value={cert.expirationDate}
-                  onChange={(e) => handleDateChange(cert.id, e.target.value)}
-                  style={{ width: '120px' }}
-                  title="Formato: aaaa-mm-dd"
-                />
-              ) : (
-                <Text size="2">--/--/----</Text>
-              )}
+                  <Flex align="center" gap="2">
+                    <Text size="2">Archivo:</Text>
+                    <Text size="2">{cert.fileName || 'No cargado'}</Text>
+                  </Flex>
 
-              {cert.expirationDate && (
-                <Badge color={getStatusColor(cert.expirationDate)}>
-                  {getStatusColor(cert.expirationDate) === 'green'
-                    ? 'VIGENTE'
-                    : getStatusColor(cert.expirationDate) === 'yellow'
-                      ? 'POR VENCER'
-                      : 'VENCIDO'}
-                </Badge>
-              )}
-            </Flex>
+                  <Flex gap="2">
+                    <input
+                      type="file"
+                      id={`file-upload-${cert.id}`}
+                      className="hidden"
+                      onChange={(e) => handleFileChange(cert.id, e)}
+                    />
+                    <Button
+                      variant="secondary"
+                      onClick={() =>
+                        document.getElementById(`file-upload-${cert.id}`)?.click()
+                      }
+                    >
+                      Seleccionar archivo
+                    </Button>
 
-            <Flex align="center" gap="2">
-              <Text size="2">Archivo:</Text>
-              <Text size="2">{cert.fileName || 'No cargado'}</Text>
-            </Flex>
+                    {!cert.isPredefined && (
+                      <Button
+                        variant="destructive"
+                        onClick={() => removeCertification(cert.id)}
+                      >
+                        Eliminar
+                      </Button>
+                    )}
+                  </Flex>
 
-            <Flex gap="2">
-              <input
-                type="file"
-                id={`file-upload-${cert.id}`}
-                style={{ display: 'none' }}
-                onChange={(e) => handleFileChange(cert.id, e)}
+                  {dateErrors[cert.id] && (
+                    <Text size="1" color="red">
+                      {dateErrors[cert.id]}
+                    </Text>
+                  )}
+                </Flex>
+              </Box>
+            ))}
+        </Flex>
+
+        
+        <Flex direction="column" gap="3">
+          {certifications
+            .filter((_, index) => index % 2 === 1)
+            .map((cert) => (
+              <Box key={cert.id} className="border-b pb-4">
+                <Text as="div" size="2" mb="1" weight="bold">
+                  {cert.name}
+                </Text>
+
+                <Flex direction="column" gap="3">
+                  <Flex align="center" gap="2">
+                    <Text size="2">Expiración:</Text>
+                    {cert.isFileUploaded ? (
+                      <Input
+                        type="date"
+                        value={cert.expirationDate}
+                        onChange={(e) => handleDateChange(cert.id, e.target.value)}
+                        className="w-full"
+                      />
+                    ) : (
+                      <Text size="2">--/--/----</Text>
+                    )}
+
+                    {cert.expirationDate && (
+                      <Badge color={getStatusColor(cert.expirationDate)}>
+                        {getStatusColor(cert.expirationDate) === 'green'
+                          ? 'VIGENTE'
+                          : getStatusColor(cert.expirationDate) === 'yellow'
+                            ? 'POR VENCER'
+                            : 'VENCIDO'}
+                      </Badge>
+                    )}
+                  </Flex>
+
+                  <Flex align="center" gap="2">
+                    <Text size="2">Archivo:</Text>
+                    <Text size="2">{cert.fileName || 'No cargado'}</Text>
+                  </Flex>
+
+                  <Flex gap="2">
+                    <input
+                      type="file"
+                      id={`file-upload-${cert.id}`}
+                      className="hidden"
+                      onChange={(e) => handleFileChange(cert.id, e)}
+                    />
+                    <Button
+                      variant="secondary"
+                      onClick={() =>
+                        document.getElementById(`file-upload-${cert.id}`)?.click()
+                      }
+                    >
+                      Seleccionar archivo
+                    </Button>
+
+                    {!cert.isPredefined && (
+                      <Button
+                        variant="destructive"
+                        onClick={() => removeCertification(cert.id)}
+                      >
+                        Eliminar
+                      </Button>
+                    )}
+                  </Flex>
+
+                  {dateErrors[cert.id] && (
+                    <Text size="1" color="red">
+                      {dateErrors[cert.id]}
+                    </Text>
+                  )}
+                </Flex>
+              </Box>
+            ))}
+        </Flex>
+      </Grid>
+
+      {certifications.length < 5 && (
+        <Flex justify="center" mt="3">
+          {showCertInput ? (
+            <Flex gap="2" align="center">
+              <Input
+                placeholder="Nombre del certificado"
+                value={newCertName}
+                onChange={(e) => setNewCertName(e.target.value)}
+                className="w-[280px]"
               />
+              <Button onClick={addCustomCertification}>Agregar</Button>
               <Button
-                onClick={() =>
-                  document.getElementById(`file-upload-${cert.id}`)?.click()
-                }
+                variant="ghost"
+                onClick={() => {
+                  setShowCertInput(false);
+                  setNewCertName('');
+                }}
               >
-                Seleccionar archivo
+                Cancelar
               </Button>
-
-              {cert.isFileUploaded &&
-                cert.expirationDate &&
-                !dateErrors[cert.id] && (
-                  <Button onClick={() => handleSave(cert.id)}>Guardar</Button>
-                )}
             </Flex>
-
-            {dateErrors[cert.id] && (
-              <Text size="1" color="red">
-                {dateErrors[cert.id]}
-              </Text>
-            )}
-          </Flex>
-        ))}
-      </Flex>
+          ) : (
+            <Button
+              variant="ghost"
+              className="text-blue-600 hover:text-blue-800"
+              onClick={() => setShowCertInput(true)}
+            >
+              + Otro Certificado
+            </Button>
+          )}
+        </Flex>
+      )}
 
       <Flex gap="3" mt="4" justify="end">
         <Button variant="ghost" onClick={onPrevious}>
           Anterior
         </Button>
-        <Button variant="link" onClick={onNext}>
-          Siguiente
-        </Button>
+        <Button onClick={onNext}>Siguiente</Button>
       </Flex>
     </>
   );

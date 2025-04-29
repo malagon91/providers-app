@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Flex, Text, Select } from '@radix-ui/themes';
+import { Flex, Text, Select, Grid } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -51,92 +51,98 @@ export const Step1 = ({
 }: Step1Props) => {
   return (
     <>
-      <Flex direction="column" gap="3">
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Nombre
-          </Text>
-          <Input placeholder="Nombre del proveedor." />
-        </label>
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Direccion
-          </Text>
-          <Input placeholder="Calle y numero" />
-        </label>
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Ciudad
-          </Text>
-          <Input placeholder="Ciudad" />
-        </label>
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Estado
-          </Text>
-          <Input placeholder="Estado" />
-        </label>
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Pais
-          </Text>
-          <Input placeholder="Pais" />
-        </label>
+      <Grid columns="2" gap="3">
+        
+        <Flex direction="column" gap="3">
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Nombre
+            </Text>
+            <Input placeholder="Nombre del proveedor." />
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Direccion
+            </Text>
+            <Input placeholder="Calle y numero" />
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Ciudad
+            </Text>
+            <Input placeholder="Ciudad" />
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Estado
+            </Text>
+            <Input placeholder="Estado" />
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Pais
+            </Text>
+            <Input placeholder="Pais" />
+          </label>
+        </Flex>
 
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Proyecto
-          </Text>
-          <Select.Root value={proyect} onValueChange={setProyect}>
-            <Select.Trigger placeholder="Proyecto" style={inputStyle} />
-            <Select.Content>
-              {supplierOptions.map((op) => (
-                <Select.Item key={op} value={op}>
-                  {op}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Root>
-        </label>
+        
+        <Flex direction="column" gap="3">
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Proyecto
+            </Text>
+            <Select.Root value={proyect} onValueChange={setProyect}>
+              <Select.Trigger placeholder="Proyecto" style={inputStyle} />
+              <Select.Content>
+                {supplierOptions.map((op) => (
+                  <Select.Item key={op} value={op}>
+                    {op}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          </label>
 
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Estatus
-          </Text>
-          <Select.Root value={status} onValueChange={setStatus}>
-            <Select.Trigger placeholder="Estatus" style={inputStyle} />
-            <Select.Content>
-              {statusOptions.map((op) => (
-                <Select.Item key={op} value={op}>
-                  {op}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Root>
-        </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Estatus
+            </Text>
+            <Select.Root value={status} onValueChange={setStatus}>
+              <Select.Trigger placeholder="Estatus" style={inputStyle} />
+              <Select.Content>
+                {statusOptions.map((op) => (
+                  <Select.Item key={op} value={op}>
+                    {op}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          </label>
 
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            Producto
-          </Text>
-          <Select.Root value={commodity} onValueChange={setCommodity}>
-            <Select.Trigger placeholder="Producto" style={inputStyle} />
-            <Select.Content>
-              {commodityOptions.map((op) => (
-                <Select.Item key={op} value={op}>
-                  {op}
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Root>
-        </label>
-      </Flex>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Producto
+            </Text>
+            <Select.Root value={commodity} onValueChange={setCommodity}>
+              <Select.Trigger placeholder="Producto" style={inputStyle} />
+              <Select.Content>
+                {commodityOptions.map((op) => (
+                  <Select.Item key={op} value={op}>
+                    {op}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          </label>
+        </Flex>
+      </Grid>
 
       <Flex gap="3" mt="4" justify="end">
         <Button variant="ghost" color="gray" onClick={onCancel}>
           Cancelar
         </Button>
-        <Button variant="link" onClick={onNext}>
+        <Button  onClick={onNext}>
           Siguiente
         </Button>
       </Flex>

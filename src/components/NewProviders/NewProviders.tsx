@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Dialog, Flex, Text, Select, Tabs } from '@radix-ui/themes';
+import { Dialog, Flex, Text, Box, Heading } from '@radix-ui/themes';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
@@ -21,52 +21,19 @@ const NewProviders = () => {
   const [status, setStatus] = React.useState('');
   const [proyect, setProyect] = React.useState('');
   const [commodity, setCommodity] = React.useState('');
-  const [currentTab, setCurrentTab] = React.useState('step1');
-  const [dialogWidth, setDialogWidth] = React.useState('450px');
+  const [currentStep, setCurrentStep] = React.useState(1);
   const [fileName1, setFileName1] = React.useState('');
   const [fileName2, setFileName2] = React.useState('');
   const [additionalFiles, setAdditionalFiles] = React.useState<
     AdditionalFile[]
   >([]);
 
-  const inputStyle = {
-    display: 'flex',
-    height: '2.5rem',
-    width: '100%',
-    borderRadius: '0.375rem',
-    borderWidth: '1px',
-    borderColor: 'hsl(var(--input))',
-    backgroundColor: 'hsl(var(--background))',
-    paddingLeft: '0.75rem',
-    paddingRight: '0.75rem',
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
-    fontSize: '0.875rem',
-    lineHeight: '1.5rem',
-    outline: 'none',
-    ringOffsetWidth: '2px',
-    cursor: 'default',
-    opacity: '1',
-  };
-
-  React.useEffect(() => {
-    switch (currentTab) {
-      case 'step1':
-        setDialogWidth('450px');
-        break;
-      case 'step2':
-        setDialogWidth('600px');
-        break;
-      case 'step3':
-        setDialogWidth('450px');
-        break;
-      case 'step4':
-        setDialogWidth('1300px');
-        break;
-      default:
-        setDialogWidth('450px');
-    }
-  }, [currentTab]);
+  const steps = [
+    { id: 1, title: 'Información', shortTitle: 'Inf.' },
+    { id: 2, title: 'Contratos', shortTitle: 'Contratos' },
+    { id: 3, title: 'Documentación', shortTitle: 'Doc.' },
+    { id: 4, title: 'Evaluación', shortTitle: 'Eval.' },
+  ];
 
   const addAdditionalFile = () => {
     if (additionalFiles.length < 5) {
@@ -104,81 +71,105 @@ const NewProviders = () => {
     setAdditionalFiles(newFiles);
   };
 
+  const handleNext = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleCancel = () => {
+    
+    setProyect('');
+    setStatus('');
+    setCommodity('');
+    setFileName1('');
+    setFileName2('');
+    setAdditionalFiles([]);
+    setCurrentStep(1);
+  };
+
   return (
-    <Dialog.Content maxWidth={dialogWidth}>
+    <Dialog.Content style={{ width: '800px',height:"530px", maxWidth: '90vw' }}>
       <Dialog.Title>
         <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
       </Dialog.Title>
 
-      <Tabs.Root
-        defaultValue="step1"
-        value={currentTab}
-        onValueChange={setCurrentTab}
-      >
-        <Tabs.List>
-          <Tabs.Trigger value="step1">Inf.</Tabs.Trigger>
-          <Tabs.Trigger value="step2">Contratos</Tabs.Trigger>
-          <Tabs.Trigger value="step3">Documentacion</Tabs.Trigger>
-          <Tabs.Trigger value="step4">Evaluacion</Tabs.Trigger>
-        </Tabs.List>
-
-        <Tabs.Content value="step1">
-          <Step1
-            proyect={proyect}
-            setProyect={setProyect}
-            status={status}
-            setStatus={setStatus}
-            commodity={commodity}
-            setCommodity={setCommodity}
-            onNext={() => setCurrentTab('step2')}
-            onCancel={() => {
-              setProyect('');
-              setStatus('');
-              setCommodity('');
-            }}
-          />
-        </Tabs.Content>
-
-        <Tabs.Content value="step2">
-          <Step2
-            fileName1={fileName1}
-            setFileName1={setFileName1}
-            fileName2={fileName2}
-            setFileName2={setFileName2}
-            additionalFiles={additionalFiles}
-            addAdditionalFile={addAdditionalFile}
-            removeAdditionalFile={removeAdditionalFile}
-            handleAdditionalFileChange={handleAdditionalFileChange}
-            updateAdditionalFileLabel={updateAdditionalFileLabel}
-            onPrevious={() => setCurrentTab('step1')}
-            onNext={() => setCurrentTab('step3')}
-          />
-        </Tabs.Content>
-
-        <Tabs.Content value="step3">
-          <Step3
-            onPrevious={() => setCurrentTab('step2')}
-            onNext={() => setCurrentTab('step4')}
-          />
-        </Tabs.Content>
-
-        <Tabs.Content value="step4">
-          <Flex direction="column" gap="3">
-            <Text size="4" weight="bold">
-              Evaluación
-            </Text>
+      
+      <Flex justify="between" mb="4" className="border-b pb-4">
+        {steps.map((step) => (
+          <Flex
+            key={step.id}
+            direction="column"
+            align="center"
+            className={
+              currentStep >= step.id ? 'text-primary' : 'text-gray-500'
+            }
+          >
+            <Text weight="bold">{step.shortTitle}</Text>
+            <Box
+              className={`h-1 w-8 mt-2 ${
+                currentStep >= step.id ? 'bg-primary' : 'bg-gray-300'
+              }`}
+            />
           </Flex>
+        ))}
+      </Flex>
 
+      
+      {currentStep === 1 && (
+        <Step1
+          proyect={proyect}
+          setProyect={setProyect}
+          status={status}
+          setStatus={setStatus}
+          commodity={commodity}
+          setCommodity={setCommodity}
+          onNext={handleNext}
+          onCancel={handleCancel}
+        />
+      )}
+
+      {currentStep === 2 && (
+        <Step2
+          fileName1={fileName1}
+          setFileName1={setFileName1}
+          fileName2={fileName2}
+          setFileName2={setFileName2}
+          additionalFiles={additionalFiles}
+          addAdditionalFile={addAdditionalFile}
+          removeAdditionalFile={removeAdditionalFile}
+          handleAdditionalFileChange={handleAdditionalFileChange}
+          updateAdditionalFileLabel={updateAdditionalFileLabel}
+          onPrevious={handlePrev}
+          onNext={handleNext}
+        />
+      )}
+
+      {currentStep === 3 && (
+        <Step3 onPrevious={handlePrev} onNext={handleNext} />
+      )}
+
+      {currentStep === 4 && (
+        <Flex direction="column" gap="3">
+          <Text size="4" weight="bold">
+            Evaluación
+          </Text>
           <Flex gap="3" mt="4" justify="end">
-            <Button variant="ghost" onClick={() => setCurrentTab('step3')}>
+            <Button variant="ghost" onClick={handlePrev}>
               Anterior
             </Button>
             <Dialog.Close>
               <Button variant="default">Finalizar</Button>
             </Dialog.Close>
           </Flex>
-        </Tabs.Content>
-      </Tabs.Root>
+        </Flex>
+      )}
     </Dialog.Content>
   );
 };
