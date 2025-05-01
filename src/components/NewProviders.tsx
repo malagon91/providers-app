@@ -129,16 +129,7 @@ const NewProviders = () => {
         </label>
       </Flex>
 
-      <Flex gap="3" mt="4" justify="end">
-        <Dialog.Close>
-          <Button variant="secondary" color="gray">
-            Cancelar
-          </Button>
-        </Dialog.Close>
-        <Dialog.Close>
-          <Button variant="default">Siguiente</Button>
-        </Dialog.Close>
-      </Flex>
+      
     </Dialog.Content>
   );
 };

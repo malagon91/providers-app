@@ -7,6 +7,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
+import { Step4 } from './Step4';
 
 interface AdditionalFile {
   name: string;
@@ -24,9 +25,7 @@ const NewProviders = () => {
   const [currentStep, setCurrentStep] = React.useState(1);
   const [fileName1, setFileName1] = React.useState('');
   const [fileName2, setFileName2] = React.useState('');
-  const [additionalFiles, setAdditionalFiles] = React.useState<
-    AdditionalFile[]
-  >([]);
+  const [additionalFiles, setAdditionalFiles] = React.useState<AdditionalFile[]>([]);
 
   const steps = [
     { id: 1, title: 'Información', shortTitle: 'Inf.' },
@@ -84,7 +83,6 @@ const NewProviders = () => {
   };
 
   const handleCancel = () => {
-    
     setProyect('');
     setStatus('');
     setCommodity('');
@@ -95,34 +93,62 @@ const NewProviders = () => {
   };
 
   return (
-    <Dialog.Content style={{ width: '800px',height:"530px", maxWidth: '90vw' }}>
+    <Dialog.Content style={{ width: '800px', height: '590px', maxWidth: '90vw' }}>
       <Dialog.Title>
         <VisuallyHidden>Agregar Nuevo Proveedor</VisuallyHidden>
       </Dialog.Title>
 
       
-      <Flex justify="between" mb="4" className="border-b pb-4">
+      <Flex align="center" justify="between" mb="4" className="relative pb-6">
+        
+        <div className="absolute top-5 left-0 right-0 h-[2px] bg-gray-200 z-0">
+          
+          <div 
+            className="h-full bg-primary transition-all duration-300" 
+            style={{ 
+              width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` 
+            }}
+          />
+        </div>
+
         {steps.map((step) => (
           <Flex
             key={step.id}
             direction="column"
             align="center"
-            className={
-              currentStep >= step.id ? 'text-primary' : 'text-gray-500'
-            }
+            className="relative z-10"
           >
-            <Text weight="bold">{step.shortTitle}</Text>
-            <Box
-              className={`h-1 w-8 mt-2 ${
-                currentStep >= step.id ? 'bg-primary' : 'bg-gray-300'
-              }`}
-            />
+            
+            <div className={`
+              w-6 h-6 rounded-full flex items-center justify-center mb-2
+              ${currentStep >= step.id ? 'bg-primary' : 'bg-gray-200'}
+              ${currentStep > step.id ? 'text-white' : 'text-gray-700'}
+            `}>
+              {currentStep > step.id ? (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : (
+                <Text weight="bold">{step.id}</Text>
+              )}
+            </div>
+            
+            
+            <Text 
+              weight="bold" 
+              className={`${currentStep >= step.id ? 'text-primary' : 'text-gray-500'}`}
+            >
+              {step.shortTitle}
+            </Text>
           </Flex>
         ))}
       </Flex>
 
       
       {currentStep === 1 && (
+      <>
+      
+        <Flex direction="column" gap="3">
         <Step1
           proyect={proyect}
           setProyect={setProyect}
@@ -133,6 +159,27 @@ const NewProviders = () => {
           onNext={handleNext}
           onCancel={handleCancel}
         />
+        <Flex 
+      gap="3" 
+      position="absolute" 
+      className="bottom-5 right-5"
+      justify="end"
+    >
+      <Dialog.Close>
+      <Button variant="ghost" onClick={handlePrev}>
+        Cancelar
+      </Button>
+      
+      </Dialog.Close>
+      <Button onClick={handleNext}>
+        Siguiente
+        
+      </Button>
+      
+    </Flex>
+      </Flex>
+      </>
+
       )}
 
       {currentStep === 2 && (
@@ -157,17 +204,23 @@ const NewProviders = () => {
 
       {currentStep === 4 && (
         <Flex direction="column" gap="3">
-          <Text size="4" weight="bold">
-            Evaluación
-          </Text>
-          <Flex gap="3" mt="4" justify="end">
-            <Button variant="ghost" onClick={handlePrev}>
-              Anterior
-            </Button>
-            <Dialog.Close>
-              <Button variant="default">Finalizar</Button>
-            </Dialog.Close>
-          </Flex>
+          <Step4 onPrevious={handlePrev} onNext={handleNext} />
+          <Flex 
+        gap="3" 
+        position="absolute" 
+        className="bottom-5 right-5"
+        justify="end"
+      >
+        <Button variant="ghost" onClick={handlePrev}>
+          Anterior
+        </Button>
+        <Dialog.Close>
+        <Button onClick={handleNext}>
+          Finalizar
+          
+        </Button>
+        </Dialog.Close>
+      </Flex>
         </Flex>
       )}
     </Dialog.Content>

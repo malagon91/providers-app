@@ -40,7 +40,7 @@ export const Step2 = ({
   onNext,
 }: Step2Props) => {
   return (
-    <Flex direction="column" style={{ minHeight: '420px', position: 'relative' }}>
+    <Flex direction="column" gap="3">
       <Grid columns="2" gap="3">
         
         <Flex direction="column" gap="3">
@@ -211,9 +211,9 @@ export const Step2 = ({
       )}
 
 <Flex 
-  gap="3" 
-  className="absolute bottom-4 right-1 justify-end"
->
+      gap="3" 
+      className="absolute bottom-5 right-5 justify-end"
+    >
         <Button variant="ghost" onClick={onPrevious}>
           Anterior
         </Button>

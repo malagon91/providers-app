@@ -138,14 +138,7 @@ export const Step1 = ({
         </Flex>
       </Grid>
 
-      <Flex gap="3" mt="4" justify="end">
-        <Button variant="ghost" color="gray" onClick={onCancel}>
-          Cancelar
-        </Button>
-        <Button  onClick={onNext}>
-          Siguiente
-        </Button>
-      </Flex>
+     
     </>
   );
 };

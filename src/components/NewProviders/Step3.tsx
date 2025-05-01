@@ -326,12 +326,17 @@ export const Step3 = ({ onPrevious, onNext }: Step3Props) => {
         </Flex>
       )}
 
-      <Flex gap="3" mt="4" justify="end">
-        <Button variant="ghost" onClick={onPrevious}>
-          Anterior
-        </Button>
-        <Button onClick={onNext}>Siguiente</Button>
-      </Flex>
+    <Flex 
+      gap="3" 
+      className="absolute bottom-5 right-5 justify-end"
+    >
+            <Button variant="ghost" onClick={onPrevious}>
+              Anterior
+            </Button>
+            <Button onClick={onNext}>
+              Siguiente
+            </Button>
+          </Flex>
     </>
   );
 };
